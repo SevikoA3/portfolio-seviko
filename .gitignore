@@ -28,6 +28,7 @@ lerna-debug.log*
 .parcel-cache/
 .vite/
 .eslintcache
+.codex-temp/
 
 # Editor directories and files
 .vscode/*

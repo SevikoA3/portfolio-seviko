@@ -11,7 +11,9 @@
     "seed:experience": "node scripts/seed-experiences.mjs",
     "sync:experience": "node scripts/seed-experiences.mjs",
     "seed:project": "node scripts/seed-projects.mjs",
-    "sync:project": "node scripts/seed-projects.mjs"
+    "sync:project": "node scripts/seed-projects.mjs",
+    "seed:more-projects": "node scripts/seed-more-projects.mjs",
+    "sync:more-projects": "node scripts/seed-more-projects.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",

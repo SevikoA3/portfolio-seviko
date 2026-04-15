@@ -46,6 +46,34 @@ export async function fetchProjects(isLatest: boolean = false): Promise<Project[
   }
 }
 
+export interface MoreProject {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  repoLink: string;
+  tags: string[];
+  sortOrder: number;
+}
+
+export async function fetchMoreProjects(): Promise<MoreProject[]> {
+  try {
+    const moreProjectsRef = collection(db, 'moreProjects');
+    const q = query(moreProjectsRef, orderBy('sortOrder'));
+    const snapshot = await getDocs(q);
+
+    const moreProjects: MoreProject[] = [];
+    snapshot.forEach((doc) => {
+      moreProjects.push({ id: doc.id, ...doc.data() } as MoreProject);
+    });
+
+    return moreProjects;
+  } catch (error) {
+    console.error('Error fetching more projects: ', error);
+    return [];
+  }
+}
+
 export interface Publication {
   id: string;
   title: string;

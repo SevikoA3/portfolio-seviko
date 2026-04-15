@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
-import { fetchProjects, type Project } from '../lib/firebase';
+import { fetchMoreProjects, fetchProjects, type MoreProject, type Project } from '../lib/firebase';
 
 /** Lightweight scroll-reveal for items that need custom inline style */
 function RevealItem({
@@ -40,13 +40,15 @@ function RevealItem({
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [moreProjects, setMoreProjects] = useState<MoreProject[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const data = await fetchProjects(false);
-      setProjects(data);
+      const [projectData, moreProjectData] = await Promise.all([fetchProjects(false), fetchMoreProjects()]);
+      setProjects(projectData);
+      setMoreProjects(moreProjectData);
       setLoading(false);
     };
     loadData();
@@ -146,10 +148,42 @@ export default function Projects() {
       </RevealItem>
 
       <RevealItem>
-        <section className="border border-outline-variant/15 bg-surface/50 p-6 sm:p-8">
-          <p className="max-w-2xl text-sm leading-relaxed text-on-surface-variant font-body sm:text-base">
-            More projects will be added here next. For now, the section above is synced from curated project data in Firestore.
-          </p>
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {moreProjects.map((project, index) => (
+            <RevealItem key={project.repoLink} delay={(index % 3) * 80}>
+              <article className="flex h-full flex-col rounded-[22px] border border-outline-variant/15 bg-surface-container-low p-5 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/35 hover:shadow-[0_20px_56px_rgba(7,10,24,0.18)]">
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <span className="inline-flex items-center rounded-full border border-outline-variant/15 bg-surface-container-high px-3 py-1 text-[9px] font-mono uppercase tracking-[0.16em] text-secondary">
+                    {project.category}
+                  </span>
+                  <a
+                    href={project.repoLink}
+                    className="inline-flex items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container-high px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
+                  >
+                    <span className="material-symbols-outlined text-sm">code</span>
+                    source
+                  </a>
+                </div>
+
+                <h3 className="mb-2 text-xl font-bold leading-tight tracking-tight text-on-surface font-headline">
+                  {project.title}
+                </h3>
+                <p className="mb-4 grow text-sm leading-6 text-on-surface-variant font-body">
+                  {project.description}
+                </p>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-outline-variant/15 bg-surface-container-high px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.12em] text-secondary"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </RevealItem>
+          ))}
         </section>
       </RevealItem>
     </main>
