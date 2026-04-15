@@ -84,7 +84,7 @@ export default function Projects() {
                     className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
                     src={project.imageUrl}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111322] via-[#111322]/35 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-[#111322] via-[#111322]/35 to-transparent" />
                   <div className="absolute left-5 top-5">
                     <span className="inline-flex items-center rounded-full border border-white/12 bg-black/25 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-white/78 backdrop-blur-sm">
                       {project.category}
@@ -92,11 +92,11 @@ export default function Projects() {
                   </div>
                 </div>
 
-                <div className="flex flex-grow flex-col p-6 sm:p-7 font-body">
-                  <h3 className="mb-3 break-words text-2xl font-bold leading-tight tracking-tight text-on-surface font-headline transition-colors group-hover:text-primary">
+                <div className="flex grow flex-col p-6 sm:p-7 font-body">
+                  <h3 className="mb-3 wrap-break-words text-2xl font-bold leading-tight tracking-tight text-on-surface font-headline transition-colors group-hover:text-primary">
                     {project.title}
                   </h3>
-                  <p className="mb-6 break-words text-sm leading-7 text-on-surface-variant flex-grow">
+                  <p className="mb-6 wrap-break-words text-sm leading-7 text-on-surface-variant grow">
                     {project.description}
                   </p>
                   <div className="mb-6 flex flex-wrap gap-2">
