@@ -73,11 +73,22 @@ export default function Home() {
           </AnimateIn>
 
           <AnimateIn delay={150} className="hidden items-center justify-center md:flex lg:justify-end">
-            <img
-              alt="Seviko Attalarik P.H"
-              className="h-105 w-auto object-contain lg:h-140"
-              src="https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98"
-            />
+            <div className="relative inline-flex w-full max-w-136 flex-col items-center px-4 pt-10 lg:max-w-152 lg:px-8">
+              <div className="absolute right-10 top-8 h-52 w-52 rounded-full bg-primary/14 blur-3xl" />
+              <div className="absolute bottom-20 left-8 h-36 w-36 rounded-full border border-primary/20 bg-primary/8 backdrop-blur-[2px]" />
+              <div className="absolute right-0 top-20 h-20 w-20 rounded-full border border-secondary/25" />
+              <div className="absolute bottom-28 right-14 h-3 w-3 rounded-full bg-primary/70 shadow-[0_0_18px_rgba(180,145,255,0.85)]" />
+              <div className="absolute left-12 top-24 h-2 w-2 rounded-full bg-secondary/80" />
+              <div className="relative z-10 flex w-full flex-col items-center">
+                <img
+                  alt="Seviko Attalarik P.H"
+                  className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+                  src="https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98"
+                />
+                <div className="-mt-1 h-1.25 w-[72%] rounded-full bg-linear-to-r from-transparent via-primary to-transparent opacity-100 shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
+                <div className="-mt-px h-10 w-[52%] rounded-full bg-primary/20 blur-2xl" />
+              </div>
+            </div>
           </AnimateIn>
         </div>
       </section>
