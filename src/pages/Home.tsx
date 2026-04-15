@@ -55,7 +55,7 @@ export default function Home() {
             <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
               system.status: active_and_available
             </div>
-            <h1 className="mb-6 text-4xl font-headline font-bold leading-tight tracking-tighter text-on-surface sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mb-6 text-4xl font-headline font-bold leading-tight tracking-tighter text-on-surface sm:text-5xl md:text-6xl">
               <span className="text-primary italic">AI/ML Engineer</span> &amp;<br />
               Backend Developer
             </h1>
