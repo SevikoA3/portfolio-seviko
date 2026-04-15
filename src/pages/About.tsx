@@ -127,7 +127,7 @@ export default function About() {
                 { label: 'languages_spoken', value: 'id / en' },
                 { label: 'focus_area', value: 'deep_learning' },
                 { label: 'currently_learning', value: 'web3' },
-                { label: 'os_choice', value: 'windows/linux' },
+                { label: 'os_choice', value: 'windows / linux' },
               ].map(({ label, value }) => (
                 <div key={label} className="p-4 border-l-2 border-secondary bg-surface-container">
                   <span className="text-xs text-outline block mb-1">{label}</span>
