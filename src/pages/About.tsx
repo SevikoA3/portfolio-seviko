@@ -1,6 +1,10 @@
+import OrnamentLayer from '../components/OrnamentLayer';
+
 export default function About() {
   return (
-    <main className="mx-auto min-h-screen max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
+    <main className="relative min-h-screen overflow-hidden bg-background">
+      <OrnamentLayer variant="page" tone="primary" pattern="signal" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <h1 className="mb-12 font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl md:mb-16 md:text-7xl">
         #<span className="text-primary">About</span>
       </h1>
@@ -53,7 +57,9 @@ export default function About() {
       </section>
 
       {/* Technical Stack */}
-      <section className="mb-24 md:mb-32">
+      <section className="relative mb-24 overflow-hidden md:mb-32">
+        <OrnamentLayer variant="section" tone="secondary" pattern="constellation" />
+        <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
           <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">technical_stack</h2>
           <div className="h-px w-full grow bg-outline-variant/20"></div>
@@ -84,10 +90,13 @@ export default function About() {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
       {/* Fun Facts */}
-      <section className="mb-24 md:mb-32">
+      <section className="relative mb-24 overflow-hidden md:mb-32">
+        <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
+        <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
           <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">fun_facts</h2>
           <div className="h-px w-full grow bg-outline-variant/20"></div>
@@ -128,7 +137,9 @@ export default function About() {
             </div>
           </div>
         </div>
+        </div>
       </section>
+      </div>
     </main>
   );
 }

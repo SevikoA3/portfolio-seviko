@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { fetchMoreProjects, fetchProjects, type MoreProject, type Project } from '../lib/firebase';
+import OrnamentLayer from '../components/OrnamentLayer';
 
 /** Lightweight scroll-reveal for items that need custom inline style */
 function RevealItem({
@@ -55,17 +56,19 @@ export default function Projects() {
   }, []);
 
   return (
-    <main className="mx-auto min-h-screen max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
-      <RevealItem>
-        <header className="mb-16 md:mb-20">
-          <h1 className="mb-6 text-4xl font-bold tracking-tighter text-on-surface font-headline sm:text-5xl md:text-7xl">
-            #<span className="text-primary">Projects</span>
-          </h1>
-          <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-            A curated set of web, mobile, backend, and machine learning projects pulled from Firestore.
-          </p>
-        </header>
-      </RevealItem>
+    <main className="relative min-h-screen overflow-hidden bg-background">
+      <OrnamentLayer variant="page" tone="primary" pattern="orbit" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
+        <RevealItem>
+          <header className="mb-16 md:mb-20">
+            <h1 className="mb-6 text-4xl font-bold tracking-tighter text-on-surface font-headline sm:text-5xl md:text-7xl">
+              #<span className="text-primary">Projects</span>
+            </h1>
+            <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
+              A curated set of web, mobile, backend, and machine learning projects pulled from Firestore.
+            </p>
+          </header>
+        </RevealItem>
 
       <section className="mb-24 grid grid-cols-1 gap-6 md:mb-32 md:grid-cols-2 xl:grid-cols-3">
         {loading ? (
@@ -186,6 +189,7 @@ export default function Projects() {
           ))}
         </section>
       </RevealItem>
+      </div>
     </main>
   );
 }

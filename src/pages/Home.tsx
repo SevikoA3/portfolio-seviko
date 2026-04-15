@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchExperiences, fetchProjects, fetchPublications, type Experience, type Project, type Publication } from '../lib/firebase';
 import { Link } from 'react-router-dom';
 import AnimateIn from '../components/AnimateIn';
+import OrnamentLayer from '../components/OrnamentLayer';
 import { calculateExperienceTotalDuration, formatExperiencePeriod } from '../lib/experienceDates';
 
 export default function Home() {
@@ -50,6 +51,7 @@ export default function Home() {
       {/* ── 1. Hero ── bg-background ── */}
       <section className="relative flex min-h-[calc(100vh-4rem)] items-stretch overflow-hidden bg-background px-4 sm:px-6 md:px-12">
         <div className="absolute inset-0 dot-grid z-0"></div>
+        <OrnamentLayer variant="hero" tone="primary" pattern="halo" />
         <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 py-20 md:gap-12 md:py-24 lg:grid-cols-2">
           <AnimateIn delay={0}>
             <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
@@ -94,8 +96,9 @@ export default function Home() {
       </section>
 
       {/* ── 2. Skills ── bg-surface-container-low ── */}
-      <section className="bg-surface-container-low px-4 py-20 sm:px-6 md:px-12 md:py-24">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative overflow-hidden bg-surface-container-low px-4 py-20 sm:px-6 md:px-12 md:py-24">
+        <OrnamentLayer variant="section" tone="secondary" pattern="signal" />
+        <div className="relative z-10 max-w-7xl mx-auto">
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
@@ -130,8 +133,9 @@ export default function Home() {
 
       {/* ── 3. Latest Publication ── bg-background ── */}
       {latestPublication && (
-        <section className="bg-background px-4 py-20 sm:px-6 md:px-12 md:py-24">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative overflow-hidden bg-background px-4 py-20 sm:px-6 md:px-12 md:py-24">
+          <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
+          <div className="relative z-10 max-w-7xl mx-auto">
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
@@ -173,8 +177,9 @@ export default function Home() {
 
       {/* ── 4. Latest Projects ── bg-surface-container-low ── */}
       {latestExperiences.length > 0 && (
-        <section className={`px-4 py-20 sm:px-6 md:px-12 md:py-24 ${latestPublication ? 'bg-surface-container-low' : 'bg-background'}`}>
-          <div className="max-w-7xl mx-auto">
+        <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${latestPublication ? 'bg-surface-container-low' : 'bg-background'}`}>
+          <OrnamentLayer variant="section" tone="secondary" pattern="constellation" />
+          <div className="relative z-10 max-w-7xl mx-auto">
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
@@ -238,8 +243,9 @@ export default function Home() {
         </section>
       )}
 
-      <section className={`px-4 py-20 sm:px-6 md:px-12 md:py-24 ${projectsSectionBg}`}>
-        <div className="max-w-7xl mx-auto">
+      <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${projectsSectionBg}`}>
+        <OrnamentLayer variant="section" tone="primary" pattern="drift" />
+        <div className="relative z-10 max-w-7xl mx-auto">
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
@@ -287,9 +293,10 @@ export default function Home() {
       </section>
 
       {/* ── 5. About ── bg-background ── */}
-      <section className={`px-4 py-20 sm:px-6 md:px-12 md:py-24 ${aboutSectionBg}`}>
+      <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${aboutSectionBg}`}>
+        <OrnamentLayer variant="section" tone="secondary" pattern="halo" />
         <AnimateIn>
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+          <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-1/2">
               <div className="mb-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
@@ -323,6 +330,7 @@ export default function Home() {
       {/* ── 6. Contact CTA ── bg-surface-container-low ── */}
       <section className={`relative overflow-hidden border-t border-outline-variant/10 px-4 py-20 sm:px-6 md:px-12 md:py-24 ${contactSectionBg}`}>
         <div className="absolute inset-0 dot-grid opacity-5 z-0"></div>
+        <OrnamentLayer variant="section" tone="primary" pattern="signal" />
         <AnimateIn className="relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 flex items-center justify-center gap-4">

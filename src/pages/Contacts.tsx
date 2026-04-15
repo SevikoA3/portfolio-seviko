@@ -1,21 +1,24 @@
+import OrnamentLayer from '../components/OrnamentLayer';
+
 export default function Contacts() {
   return (
-    <main className="relative mx-auto min-h-screen max-w-7xl overflow-hidden px-4 pb-20 pt-28 font-body sm:px-6 md:px-12 md:pb-24 md:pt-32">
+    <main className="relative min-h-screen overflow-hidden bg-background font-body">
       {/* Background Texture */}
       <div className="absolute inset-0 dot-grid -z-10"></div>
-      
-      {/* Header Section */}
-      <header className="mb-16 md:mb-20">
-        <h1 className="mb-4 wrap-break-words font-headline text-3xl font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
-          #<span className="text-primary">Contacts</span>
-        </h1>
-        <p className="max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
-          Let's bridge the gap between data logic and execution. I'm currently open to new collaborations and high-impact machine learning projects.
-        </p>
-      </header>
+      <OrnamentLayer variant="page" tone="secondary" pattern="drift" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
+        {/* Header Section */}
+        <header className="mb-16 md:mb-20">
+          <h1 className="mb-4 wrap-break-words font-headline text-3xl font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
+            #<span className="text-primary">Contacts</span>
+          </h1>
+          <p className="max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+            Let&apos;s bridge the gap between data logic and execution. I&apos;m currently open to new collaborations and high-impact machine learning projects.
+          </p>
+        </header>
 
-      {/* Contact Layout */}
-      <div className="max-w-5xl">
+        {/* Contact Layout */}
+        <div className="max-w-5xl">
         
         {/* Primary Contact Card */}
         <section className="group relative mb-6 border border-outline-variant/10 bg-surface-container-low p-5 sm:p-7 md:p-10">
@@ -49,18 +52,19 @@ export default function Contacts() {
             <span className="text-[10px] uppercase tracking-[0.18em] font-mono text-on-surface">linkedin</span>
           </a>
         </section>
-      </div>
-
-      {/* Availability Banner */}
-      <div className="mt-16 flex flex-col items-start gap-4 md:mt-20 sm:flex-row sm:items-center sm:gap-6">
-        <div className="flex items-center space-x-2 min-w-0">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
-          </span>
-          <span className="text-[10px] text-secondary font-mono tracking-[0.2em] sm:text-xs sm:tracking-widest">AVAILABILITY: OPEN FOR WORK</span>
         </div>
-        <div className="h-px flex-1 bg-outline-variant/10"></div>
+
+        {/* Availability Banner */}
+        <div className="mt-16 flex flex-col items-start gap-4 md:mt-20 sm:flex-row sm:items-center sm:gap-6">
+          <div className="flex items-center space-x-2 min-w-0">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+            </span>
+            <span className="text-[10px] text-secondary font-mono tracking-[0.2em] sm:text-xs sm:tracking-widest">AVAILABILITY: OPEN FOR WORK</span>
+          </div>
+          <div className="h-px flex-1 self-stretch bg-outline-variant/10 sm:self-auto"></div>
+        </div>
       </div>
     </main>
   );

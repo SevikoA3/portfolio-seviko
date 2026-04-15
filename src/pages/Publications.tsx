@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchPublications, type Publication } from '../lib/firebase';
 import AnimateIn from '../components/AnimateIn';
+import OrnamentLayer from '../components/OrnamentLayer';
 
 export default function Publications() {
   const [publications, setPublications] = useState<Publication[]>([]);
@@ -17,8 +18,9 @@ export default function Publications() {
   }, []);
 
   return (
-    <main className="mx-auto min-h-screen max-w-7xl bg-background px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
-      <div>
+    <main className="relative min-h-screen overflow-hidden bg-background">
+      <OrnamentLayer variant="page" tone="primary" pattern="halo" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         <AnimateIn>
           <header className="mb-16 md:mb-20">
             <h1 className="mb-6 wrap-break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
