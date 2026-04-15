@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-error-dim: #d73357;
+  --color-surface: #0d0d1c;
+  --color-surface-variant: #24243a;
+  --color-on-primary-container: #310068;
+  --color-primary: #c19bff;
+  --color-primary-dim: #b18bef;
+  --color-surface-container-highest: #24243a;
+  --color-primary-container: #b48df2;
+  --color-on-tertiary-fixed-variant: #00367d;
+  --color-surface-container-low: #121223;
+  --color-on-background: #e6e3fa;
+  --color-surface-bright: #2a2a42;
+  --color-on-error: #490013;
+  --color-surface-container-high: #1d1e32;
+  --color-on-surface: #e6e3fa;
+  --color-surface-dim: #0d0d1c;
+  --color-surface-tint: #c19bff;
+  --color-outline: #757487;
+  --color-on-primary-fixed-variant: #441c7d;
+  --color-on-secondary-fixed: #00464f;
+  --color-on-tertiary-container: #00275f;
+  --color-on-secondary: #005b66;
+  --color-secondary-fixed-dim: #8ee1f0;
+  --color-on-error-container: #ffb2b9;
+  --color-tertiary-container: #7fa7fd;
+  --color-surface-container-lowest: #000000;
+  --color-on-tertiary-fixed: #00163c;
+  --color-error-container: #a70138;
+  --color-tertiary-fixed: #8bb0ff;
+  --color-secondary-container: #006875;
+  --color-secondary-fixed: #9cefff;
+  --color-error: #ff6e84;
+  --color-tertiary-dim: #749df1;
+  --color-primary-fixed: #bf98fe;
+  --color-secondary-dim: #8ee1f0;
+  --color-inverse-surface: #fcf8ff;
+  --color-on-secondary-fixed-variant: #006571;
+  --color-on-primary-fixed: #19003c;
+  --color-tertiary-fixed-dim: #7aa2f7;
+  --color-surface-container: #18182a;
+  --color-inverse-on-surface: #545366;
+  --color-on-surface-variant: #aba9be;
+  --color-primary-fixed-dim: #b18bef;
+  --color-on-tertiary: #003274;
+  --color-secondary: #9cefff;
+  --color-outline-variant: #474658;
+  --color-background: #0d0d1c;
+  --color-on-secondary-container: #e8fbff;
+  --color-on-primary: #3d1376;
+  --color-inverse-primary: #704bab;
+  --color-tertiary: #94b5ff;
+
+  --font-headline: "JetBrains Mono", monospace;
+  --font-body: "JetBrains Mono", monospace;
+  --font-label: "JetBrains Mono", monospace;
+}
+
+@layer utilities {
+  .dot-grid {
+    background-image: radial-gradient(circle, #474658 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+  }
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* ── Scroll animation keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Elements that animate when entering viewport via AnimateIn component */
+.in-view {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bootLoader {
+  from { transform: translateX(-140%); }
+  to   { transform: translateX(340%); }
+}
+
+.boot-loader-line {
+  animation: bootLoader 1.25s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}

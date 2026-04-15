@@ -1,0 +1,133 @@
+export default function About() {
+  return (
+    <main className="pt-32 px-8 max-w-7xl mx-auto min-h-screen">
+      <h1 className="font-headline text-5xl md:text-7xl font-bold lowercase tracking-tighter text-on-surface mb-4">
+        #about
+      </h1>
+      {/* Hero Bio Section */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-start">
+        <div className="lg:col-span-7">
+          <header className="mb-12 animate-[fadeUp_0.7s_ease_both]">
+            <p className="text-6xl md:text-5xl font-bold lowercase tracking-tighter text-on-surface leading-none mb-6 font-headline">
+              engineering <span className="text-primary">ideas</span> <br />into scalable systems.
+            </p>
+          </header>
+          <div className="space-y-6 text-on-surface-variant max-w-2xl leading-relaxed font-body animate-[fadeUp_0.7s_0.15s_ease_both]">
+            <p className="text-base">
+              I work at the intersection of software engineering and machine intelligence, turning abstract ideas into systems that actually scale. My focus is not just building things that work, but building things that remain efficient, maintainable, and predictable under real-world constraints.
+            </p>
+            <p className="text-base">
+              My journey started from curiosity in low-level systems and evolved into designing backend architectures and AI-driven solutions. I care deeply about performance, clarity, and eliminating unnecessary complexity. For me, good engineering is not about adding more layers, but about reducing them until only what truly matters remains.
+            </p>
+            <p className="text-base">
+              I believe every system should have a clear purpose, every abstraction should justify its existence, and every line of code should move the product forward. Simplicity is not a lack of sophistication, it is the result of deliberate thinking.
+            </p>
+            
+            <div className="h-px bg-gradient-to-r from-primary/20 to-transparent w-full my-8"></div>
+            
+            <div className="flex flex-wrap gap-4 font-mono">
+              <div className="flex items-center gap-2 text-xs text-on-surface">
+                <span className="material-symbols-outlined text-primary text-sm">terminal</span>
+                <span>currently_available: true</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-on-surface">
+                <span className="material-symbols-outlined text-secondary text-sm">location_on</span>
+                <span>origin: [YOGYAKARTA, ID]</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="lg:col-span-5 relative animate-[fadeUp_0.7s_0.3s_ease_both]">
+          <div className="aspect-[4/5] bg-surface-container-high border border-outline-variant/15">
+            <img 
+              className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700" 
+              alt="Seviko Attalarik" 
+              src="https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98" 
+            />
+            <div className="absolute -bottom-4 -right-4 bg-primary text-on-primary p-6 font-bold text-2xl lowercase tracking-tighter hidden md:block font-headline">
+              SEVIKO
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Stack */}
+      <section className="mb-32">
+        <div className="flex items-center gap-4 mb-12 animate-[fadeUp_0.6s_ease_both]">
+          <h2 className="text-3xl font-bold lowercase tracking-tighter font-headline text-on-surface">technical_stack</h2>
+          <div className="h-[1px] flex-grow bg-outline-variant/20"></div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          {[
+            { icon: 'data_object', num: '01 / core', title: 'languages', tags: ['Python','Go','Rust','TypeScript','SQL'] },
+            { icon: 'view_quilt', num: '02 / stack', title: 'frameworks', tags: ['TensorFlow','PyTorch','FastAPI','Gin','Next.js'], bg: 'bg-surface-container' },
+            { icon: 'handyman', num: '03 / workflow', title: 'tools', tags: ['Docker','Kubernetes','PostgreSQL','Redis','AWS/GCP'] },
+          ].map(({ icon, num, title, tags, bg }, i) => (
+            <div
+              key={title}
+              className={`${bg ?? 'bg-surface-container-low'} p-8 border border-outline-variant/10 animate-[fadeUp_0.6s_ease_both]`}
+              style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
+            >
+              <div className="flex justify-between items-center mb-8">
+                <span className="material-symbols-outlined text-primary">{icon}</span>
+                <span className="text-[10px] text-outline uppercase tracking-widest font-mono">{num}</span>
+              </div>
+              <h3 className="text-xl mb-6 lowercase text-on-surface font-headline">{title}</h3>
+              <div className="flex flex-wrap gap-2 font-mono">
+                {tags.map(t => (
+                  <span key={t} className="px-3 py-1 bg-surface-container-high text-secondary text-[11px] hover:bg-secondary hover:text-on-secondary transition-colors cursor-default">{t}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Fun Facts */}
+      <section className="mb-32">
+        <div className="flex items-center gap-4 mb-12 animate-[fadeUp_0.6s_ease_both]">
+          <h2 className="text-3xl font-bold lowercase tracking-tighter font-headline text-on-surface">fun_facts</h2>
+          <div className="h-[1px] flex-grow bg-outline-variant/20"></div>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-4 font-body">
+            {[
+              { icon: 'memory', text: 'Obsessed with optimizing models beyond what most people consider "good enough."' },
+              { icon: 'keyboard', text: 'Writes scripts to eliminate even the smallest repetitive task.' },
+              { icon: 'auto_stories', text: 'Enjoys breaking down complex systems just to rebuild them simpler.' },
+              { icon: 'explore', text: 'Prefers understanding fundamentals over chasing trends.' },
+            ].map(({ icon, text }, i) => (
+              <div
+                key={icon}
+                className="group flex items-center p-6 bg-surface-container-lowest border border-outline-variant/10 hover:border-primary/40 transition-colors animate-[fadeUp_0.6s_ease_both]"
+                style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
+              >
+                <span className="material-symbols-outlined mr-6 text-primary group-hover:scale-110 transition-transform">{icon}</span>
+                <p className="text-on-surface italic text-sm">{text}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="bg-surface-container-high px-8 flex flex-col justify-center font-mono animate-[fadeUp_0.6s_0.3s_ease_both]" style={{ animationFillMode: 'both' }}>
+            <div className="grid grid-cols-1 gap-4">
+              {[
+                { label: 'languages_spoken', value: 'id / en' },
+                { label: 'focus_area', value: 'deep_learning' },
+                { label: 'currently_learning', value: 'zig' },
+                { label: 'os_choice', value: 'linux' },
+              ].map(({ label, value }) => (
+                <div key={label} className="p-4 border-l-2 border-secondary bg-surface-container">
+                  <span className="text-xs text-outline block mb-1">{label}</span>
+                  <span className="text-on-surface text-sm">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
