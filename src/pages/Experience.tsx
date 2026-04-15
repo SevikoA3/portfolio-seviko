@@ -22,7 +22,7 @@ export default function ExperiencePage() {
     <main className="mx-auto min-h-screen max-w-7xl bg-background px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <AnimateIn>
         <header className="mb-16 md:mb-20">
-          <h1 className="mb-6 break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 wrap-break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
             #<span className="text-primary">Experience</span>
           </h1>
           <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
@@ -74,7 +74,7 @@ export default function ExperiencePage() {
                       )}
                     </div>
 
-                    <h2 className="mb-3 break-words text-2xl font-headline font-bold leading-tight text-on-surface sm:text-3xl">
+                    <h2 className="mb-3 wrap-break-words text-2xl font-headline font-bold leading-tight text-on-surface sm:text-3xl">
                       {experience.company}
                     </h2>
 
@@ -108,7 +108,7 @@ export default function ExperiencePage() {
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div className="min-w-0">
-                          <h3 className="break-words text-lg font-headline font-bold text-on-surface sm:text-xl">
+                          <h3 className="wrap-break-words text-lg font-headline font-bold text-on-surface sm:text-xl">
                             {role.title}
                           </h3>
                           {role.location && (
