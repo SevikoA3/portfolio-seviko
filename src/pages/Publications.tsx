@@ -17,23 +17,20 @@ export default function Publications() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background pt-8 pb-24 px-8 md:px-12">
-      <div className="max-w-7xl mx-auto">
+    <main className="mx-auto min-h-screen max-w-7xl bg-background px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
+      <div>
         <AnimateIn>
-          <header className="mb-16">
-            <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
-              system.log: academic_records
-            </div>
-            <h1 className="text-5xl md:text-7xl font-headline font-bold lowercase tracking-tighter text-on-surface mb-6">
-              #publications
+          <header className="mb-16 md:mb-20">
+            <h1 className="mb-6 wrap-break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
+              #<span className="text-primary">Publications</span>
             </h1>
-            <p className="text-on-surface-variant font-body text-lg max-w-xl">
+            <p className="max-w-xl text-base text-on-surface-variant font-body sm:text-lg">
               Peer-reviewed research and technical papers focusing on pushing the boundaries of AI, Machine Learning, and Systems Engineering.
             </p>
           </header>
         </AnimateIn>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 md:gap-8">
           {loading ? (
              <div className="flex justify-center py-20 text-secondary items-center animate-pulse gap-2">
                 <span className="material-symbols-outlined">rotate_right</span> Fetching academic.records...
@@ -43,34 +40,30 @@ export default function Publications() {
           ) : (
             publications.map(pub => (
               <AnimateIn key={pub.id}>
-                <article className="border border-outline-variant/30 bg-surface-container-low p-8 md:p-12 relative overflow-hidden group">
+                <article className="group relative overflow-hidden border border-outline-variant/30 bg-surface-container-low p-5 sm:p-6 md:p-10 lg:p-12">
                   <div className="absolute top-0 left-0 w-1 h-full bg-primary group-hover:w-2 transition-all duration-300"></div>
-                  <div className="absolute right-0 top-0 text-[120px] font-headline font-bold opacity-[0.02] -mt-10 -mr-10 select-none pointer-events-none">
+                  <div className="pointer-events-none absolute right-0 top-0 -mr-8 -mt-8 select-none font-headline text-[80px] font-bold opacity-[0.02] sm:-mr-10 sm:-mt-10 sm:text-[120px]">
                     IEEE
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-6 relative z-10">
-                    <span className="bg-primary/20 text-primary font-mono text-xs px-3 py-1 border border-primary/30">{pub.type}</span>
+                  <div className="relative z-10 mb-6 flex flex-wrap items-center gap-3 sm:gap-4">
+                    <span className="border border-primary/30 bg-primary/20 px-3 py-1 text-[11px] text-primary font-mono sm:text-xs">{pub.type}</span>
                     <span className="text-on-surface-variant font-mono text-xs">Published: {pub.year}</span>
                   </div>
                   
-                  <h2 className="relative z-10 text-3xl lg:text-4xl font-headline font-bold text-on-surface mb-6 leading-tight group-hover:text-primary transition-colors">
+                  <h2 className="relative z-10 mb-6 wrap-break-words text-2xl font-headline font-bold leading-tight text-on-surface transition-colors group-hover:text-primary sm:text-3xl lg:text-4xl">
                     {pub.title}
                   </h2>
                   
-                  <p className="relative z-10 text-on-surface-variant font-body text-base lg:text-lg mb-8 leading-relaxed max-w-4xl">
-                    <strong className="text-on-surface font-headline uppercase tracking-wide text-sm mr-2 text-primary">Abstract:</strong>
+                  <p className="relative z-10 mb-8 max-w-4xl wrap-break-words text-sm leading-relaxed text-on-surface-variant font-body sm:text-base lg:text-lg">
+                    <strong className="font-headline uppercase tracking-wide text-sm mr-2 text-primary">Abstract:</strong>
                     {pub.abstract}
                   </p>
                   
-                  <div className="relative z-10 flex flex-wrap gap-4">
-                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-primary text-on-primary font-headline font-bold text-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-2">
+                  <div className="relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-primary font-headline transition-all hover:brightness-110 active:scale-95">
                       <span className="material-symbols-outlined text-sm">article</span>
                       Read Full Text
-                    </a>
-                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-outline-variant/50 text-on-surface font-headline font-bold text-sm hover:bg-surface-container-highest transition-all flex items-center gap-2">
-                      <span className="material-symbols-outlined text-sm">link</span>
-                      Source Link
                     </a>
                   </div>
                 </article>

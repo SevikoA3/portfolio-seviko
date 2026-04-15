@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#243b53"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="1020" cy="150" r="132" fill="#ffffff" opacity=".06"/>
+  <circle cx="182" cy="548" r="162" fill="#a3e635" opacity=".10"/>
+  <rect x="88" y="92" width="1024" height="492" rx="30" fill="#050b15" opacity=".35"/>
+  <rect x="138" y="154" width="924" height="360" rx="28" fill="#ffffff" opacity=".04"/>
+  <rect x="186" y="202" width="180" height="180" rx="22" fill="#ffffff" opacity=".07"/>
+  <rect x="214" y="246" width="124" height="16" rx="8" fill="#bef264" opacity=".9"/>
+  <rect x="214" y="284" width="96" height="16" rx="8" fill="#bef264" opacity=".75"/>
+  <rect x="214" y="322" width="136" height="16" rx="8" fill="#bef264" opacity=".65"/>
+  <path d="M474 404l92-112 88 74 90-118 96 156" fill="none" stroke="#bef264" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  <rect x="470" y="176" width="430" height="24" rx="12" fill="#ffffff" opacity=".14"/>
+  <rect x="470" y="232" width="302" height="24" rx="12" fill="#ffffff" opacity=".10"/>
+</svg>

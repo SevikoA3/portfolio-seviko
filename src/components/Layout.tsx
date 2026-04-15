@@ -31,8 +31,8 @@ export default function Layout() {
 
   return (
     <>
-      <nav className="fixed top-0 w-full rounded-none bg-[#0d0d1c]/80 backdrop-blur-xl z-50 flex justify-between items-center px-8 md:px-12 h-16 border-b border-[#24243a]/15">
-        <div className="text-xl font-bold text-[#c19bff] font-label lowercase tracking-tighter">
+      <nav className="fixed top-0 z-50 flex h-16 w-full items-center justify-between border-b border-[#24243a]/15 bg-[#0d0d1c]/80 px-4 backdrop-blur-xl sm:px-6 md:px-12">
+        <div className="text-lg font-bold text-[#c19bff] font-label lowercase tracking-tighter sm:text-xl">
           portfolio.seviko
         </div>
         
@@ -46,12 +46,20 @@ export default function Layout() {
             home
           </NavLink>
           <NavLink 
-            to="/works" 
+            to="/experience" 
             className={({ isActive }) => 
               `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
-            works
+            experience
+          </NavLink>
+          <NavLink 
+            to="/projects" 
+            className={({ isActive }) => 
+              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+            }
+          >
+            projects
           </NavLink>
           <NavLink 
             to="/about" 

@@ -69,6 +69,18 @@
 body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 .material-symbols-outlined {

@@ -7,7 +7,11 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed:experience": "node scripts/seed-experiences.mjs",
+    "sync:experience": "node scripts/seed-experiences.mjs",
+    "seed:project": "node scripts/seed-projects.mjs",
+    "sync:project": "node scripts/seed-projects.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",

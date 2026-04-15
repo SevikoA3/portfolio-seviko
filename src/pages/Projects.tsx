@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { fetchProjects, type Project } from '../lib/firebase';
 
-/** Lightweight scroll-reveal for items that need custom inline style (gridColumn) */
+/** Lightweight scroll-reveal for items that need custom inline style */
 function RevealItem({
   children,
   delay = 0,
@@ -18,7 +18,9 @@ function RevealItem({
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { setInView(e.isIntersecting); }, // reset when leaving, trigger when entering
+      ([e]) => {
+        setInView(e.isIntersecting);
+      },
       { threshold: 0.1 }
     );
     obs.observe(el);
@@ -51,129 +53,105 @@ export default function Projects() {
   }, []);
 
   return (
-    <main className="pt-24 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
-      {/* Header */}
+    <main className="mx-auto min-h-screen max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <RevealItem>
-        <header className="mb-20">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-6 font-headline">
-            Big<span className="text-primary">Projects</span>
+        <header className="mb-16 md:mb-20">
+          <h1 className="mb-6 text-4xl font-bold tracking-tighter text-on-surface font-headline sm:text-5xl md:text-7xl">
+            #<span className="text-primary">Projects</span>
           </h1>
-          <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed font-body">
-            A selection of production-ready machine learning pipelines and scalable backend architectures.
+          <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
+            A curated set of web, mobile, backend, and machine learning projects pulled from Firestore.
           </p>
         </header>
       </RevealItem>
 
-      {/* Big Projects Grid — 3 cols, last 1 or 2 items stretch to fill the row */}
-      <section
-        className="grid gap-6 mb-32"
-        style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
-      >
+      <section className="mb-24 grid grid-cols-1 gap-6 md:mb-32 md:grid-cols-2 xl:grid-cols-3">
         {loading ? (
-          <div style={{ gridColumn: '1 / -1' }} className="flex justify-center py-20 text-secondary items-center animate-pulse gap-2 font-mono">
+          <div className="col-span-full flex items-center justify-center gap-2 py-20 text-secondary font-mono animate-pulse">
             <span className="material-symbols-outlined">rotate_right</span> Loading database...
           </div>
         ) : projects.length === 0 ? (
-          <div style={{ gridColumn: '1 / -1' }} className="text-on-surface-variant font-mono py-12 text-center">
+          <div className="col-span-full py-12 text-center text-on-surface-variant font-mono">
             No projects found. Add some via Firebase Console.
           </div>
         ) : (
-          projects.map((project, index) => {
-            const total = projects.length;
-            const remainder = total % 3;
-
-            let gridColumn: string | undefined;
-            if (remainder === 1 && index === total - 1) gridColumn = '1 / -1';
-            else if (remainder === 2 && index === total - 2) gridColumn = 'span 1';
-            else if (remainder === 2 && index === total - 1) gridColumn = 'span 2';
-
-            return (
-              <RevealItem
-                key={project.id}
-                delay={(index % 3) * 80}
-                style={gridColumn ? { gridColumn } : undefined}
-              >
-                <div className="bg-surface-container-low border border-outline-variant/15 group hover:border-primary/40 transition-all terminal-glow flex flex-col h-full">
-                  {/* Image */}
-                  <div className="relative overflow-hidden h-64">
-                    <img
-                      alt={project.title}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-60 group-hover:opacity-100"
-                      src={project.imageUrl}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent" />
-                    <div className="absolute bottom-4 left-5 right-5">
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {project.tags.map(tag => (
-                          <span key={tag} className="bg-surface-container-highest/80 backdrop-blur-sm text-secondary text-[10px] px-2 py-0.5 border border-outline-variant/20 uppercase font-mono">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 flex flex-col flex-grow font-body">
-                    <div className="text-[10px] text-secondary mb-2 font-mono uppercase tracking-wider">{project.category}</div>
-                    <h3 className="text-xl font-bold lowercase tracking-tight mb-3 text-on-surface font-headline group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-on-surface-variant text-sm mb-6 leading-relaxed flex-grow">{project.description}</p>
-                    <div className="flex gap-4 font-mono mt-auto">
-                      {project.demoLink && (
-                        <a href={project.demoLink} className="text-sm text-primary flex items-center gap-1 hover:underline">
-                          <span className="material-symbols-outlined text-sm">open_in_new</span> live_demo
-                        </a>
-                      )}
-                      {project.repoLink && (
-                        <a href={project.repoLink} className="text-sm text-secondary flex items-center gap-1 hover:underline">
-                          <span className="material-symbols-outlined text-sm">code</span> source
-                        </a>
-                      )}
-                    </div>
+          projects.map((project, index) => (
+            <RevealItem key={project.id} delay={(index % 3) * 80}>
+              <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-outline-variant/15 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_24px_80px_rgba(7,10,24,0.38)]">
+                <div className="relative h-48 overflow-hidden border-b border-outline-variant/10 bg-[#0d1020]">
+                  <img
+                    alt={project.title}
+                    className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                    src={project.imageUrl}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111322] via-[#111322]/35 to-transparent" />
+                  <div className="absolute left-5 top-5">
+                    <span className="inline-flex items-center rounded-full border border-white/12 bg-black/25 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-white/78 backdrop-blur-sm">
+                      {project.category}
+                    </span>
                   </div>
                 </div>
-              </RevealItem>
-            );
-          })
+
+                <div className="flex flex-grow flex-col p-6 sm:p-7 font-body">
+                  <h3 className="mb-3 break-words text-2xl font-bold leading-tight tracking-tight text-on-surface font-headline transition-colors group-hover:text-primary">
+                    {project.title}
+                  </h3>
+                  <p className="mb-6 break-words text-sm leading-7 text-on-surface-variant flex-grow">
+                    {project.description}
+                  </p>
+                  <div className="mb-6 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-outline-variant/15 bg-surface-container-high px-3 py-1 text-[10px] font-mono uppercase tracking-[0.14em] text-secondary"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex flex-wrap gap-3 font-mono">
+                    {project.demoLink && (
+                      <a
+                        href={project.demoLink}
+                        className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/16"
+                      >
+                        <span className="material-symbols-outlined text-sm">open_in_new</span>
+                        live demo
+                      </a>
+                    )}
+                    {project.repoLink && (
+                      <a
+                        href={project.repoLink}
+                        className="inline-flex items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container-high px-4 py-2 text-xs uppercase tracking-[0.18em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
+                      >
+                        <span className="material-symbols-outlined text-sm">code</span>
+                        source
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            </RevealItem>
+          ))
         )}
       </section>
 
-      {/* Small Projects Header */}
       <RevealItem>
-        <header className="mb-12">
-          <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4 font-headline">
-            Small<span className="text-secondary">Projects</span>
+        <header className="mb-12 md:mb-14">
+          <h2 className="mb-4 text-3xl font-bold tracking-tighter text-on-surface font-headline sm:text-4xl">
+            ##<span className="text-secondary">More_Projects</span>
           </h2>
           <div className="h-px w-full bg-outline-variant/20"></div>
         </header>
       </RevealItem>
 
-      {/* Small Projects List */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[
-          { title: 'nlp_text_cleaner', icon: 'data_exploration', desc: 'A fast python script for preemptive text cleaning before language modeling tasks.', tags: ['#PYTHON', '#NLP'] },
-          { title: 'docker_gpu_setup', icon: 'memory', desc: 'Boilerplate configuration maps for passing Nvidia GPUs into containerized environments easily.', tags: ['#DOCKER', '#CUDA'] },
-          { title: 'go_rate_limiter', icon: 'speed', desc: 'High performance distributed rate limiter written in Go using Redis backend.', tags: ['#GO', '#REDIS'] },
-        ].map(({ title, icon, desc, tags }, i) => (
-          <RevealItem key={title} delay={i * 80}>
-            <div className="group border-l-2 border-outline-variant hover:border-secondary transition-all p-4 bg-surface/50 font-body h-full">
-              <div className="flex justify-between items-start mb-4">
-                <h4 className="text-lg font-bold lowercase text-on-surface font-headline">{title}</h4>
-                <span className="material-symbols-outlined text-outline group-hover:text-secondary">{icon}</span>
-              </div>
-              <p className="text-on-surface-variant text-xs mb-6 leading-relaxed">{desc}</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {tags.map(t => <span key={t} className="text-[9px] text-outline-variant font-mono">{t}</span>)}
-              </div>
-              <a className="text-[10px] text-secondary tracking-widest uppercase hover:text-on-surface flex items-center gap-1 font-mono" href="#">
-                view_repository <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
-              </a>
-            </div>
-          </RevealItem>
-        ))}
-      </section>
+      <RevealItem>
+        <section className="border border-outline-variant/15 bg-surface/50 p-6 sm:p-8">
+          <p className="max-w-2xl text-sm leading-relaxed text-on-surface-variant font-body sm:text-base">
+            More projects will be added here next. For now, the section above is synced from curated project data in Firestore.
+          </p>
+        </section>
+      </RevealItem>
     </main>
   );
 }

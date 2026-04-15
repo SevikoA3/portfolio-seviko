@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, limit, query } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 
 // Replace with your Firebase config or set via .env files
 const firebaseConfig = {
@@ -23,12 +23,15 @@ export interface Project {
   demoLink?: string;
   repoLink?: string;
   tags: string[];
+  sortOrder: number;
 }
 
 export async function fetchProjects(isLatest: boolean = false): Promise<Project[]> {
   try {
     const projectsRef = collection(db, 'projects');
-    const q = isLatest ? query(projectsRef, limit(3)) : query(projectsRef);
+    const q = isLatest
+      ? query(projectsRef, orderBy('sortOrder'), limit(3))
+      : query(projectsRef, orderBy('sortOrder'));
     const snapshot = await getDocs(q);
     
     const projects: Project[] = [];
@@ -66,6 +69,46 @@ export async function fetchPublications(isLatest: boolean = false): Promise<Publ
     return pubs;
   } catch (error) {
     console.error("Error fetching publications: ", error);
+    return [];
+  }
+}
+
+export interface ExperienceRole {
+  title: string;
+  startDate: string;
+  endDate?: string | null;
+  location?: string;
+  skills?: string[];
+}
+
+export interface Experience {
+  id: string;
+  company: string;
+  location?: string;
+  summary?: string;
+  category?: string;
+  employmentType?: string;
+  workSetup?: string;
+  roles: ExperienceRole[];
+  sortOrder: number;
+}
+
+export async function fetchExperiences(isLatest: boolean = false): Promise<Experience[]> {
+  try {
+    const experienceRef = collection(db, 'experiences');
+    const q = isLatest
+      ? query(experienceRef, orderBy('sortOrder'), limit(3))
+      : query(experienceRef, orderBy('sortOrder'));
+    const snapshot = await getDocs(q);
+
+    const experiences: Experience[] = [];
+    snapshot.forEach((doc) => {
+      experiences.push({ id: doc.id, ...doc.data() } as Experience);
+    });
+
+    return experiences;
+  } catch (error) {
+    console.error('Error fetching experiences: ', error);
     return [];
   }
 }

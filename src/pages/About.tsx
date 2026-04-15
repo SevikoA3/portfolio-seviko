@@ -1,18 +1,18 @@
 export default function About() {
   return (
-    <main className="pt-32 px-8 max-w-7xl mx-auto min-h-screen">
-      <h1 className="font-headline text-5xl md:text-7xl font-bold lowercase tracking-tighter text-on-surface mb-4">
-        #about
+    <main className="mx-auto min-h-screen max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
+      <h1 className="mb-12 font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl md:mb-16 md:text-7xl">
+        #<span className="text-primary">About</span>
       </h1>
       {/* Hero Bio Section */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-start">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-24 md:mb-32 items-start">
         <div className="lg:col-span-7">
           <header className="mb-12 animate-[fadeUp_0.7s_ease_both]">
-            <p className="text-6xl md:text-5xl font-bold lowercase tracking-tighter text-on-surface leading-none mb-6 font-headline">
+            <p className="mb-6 font-headline text-4xl font-bold lowercase leading-tight tracking-tighter text-on-surface sm:text-5xl md:text-6xl">
               engineering <span className="text-primary">ideas</span> <br />into scalable systems.
             </p>
           </header>
-          <div className="space-y-6 text-on-surface-variant max-w-2xl leading-relaxed font-body animate-[fadeUp_0.7s_0.15s_ease_both]">
+          <div className="max-w-2xl space-y-6 leading-relaxed text-on-surface-variant font-body animate-[fadeUp_0.7s_0.15s_ease_both]">
             <p className="text-base">
               I work at the intersection of software engineering and machine intelligence, turning abstract ideas into systems that actually scale. My focus is not just building things that work, but building things that remain efficient, maintainable, and predictable under real-world constraints.
             </p>
@@ -23,7 +23,7 @@ export default function About() {
               I believe every system should have a clear purpose, every abstraction should justify its existence, and every line of code should move the product forward. Simplicity is not a lack of sophistication, it is the result of deliberate thinking.
             </p>
             
-            <div className="h-px bg-gradient-to-r from-primary/20 to-transparent w-full my-8"></div>
+            <div className="h-px bg-linear-to-r from-primary/20 to-transparent w-full my-8"></div>
             
             <div className="flex flex-wrap gap-4 font-mono">
               <div className="flex items-center gap-2 text-xs text-on-surface">
@@ -39,7 +39,7 @@ export default function About() {
         </div>
         
         <div className="lg:col-span-5 relative animate-[fadeUp_0.7s_0.3s_ease_both]">
-          <div className="aspect-[4/5] bg-surface-container-high border border-outline-variant/15">
+          <div className="aspect-4/5 bg-surface-container-high border border-outline-variant/15">
             <img 
               className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700" 
               alt="Seviko Attalarik" 
@@ -53,21 +53,22 @@ export default function About() {
       </section>
 
       {/* Technical Stack */}
-      <section className="mb-32">
-        <div className="flex items-center gap-4 mb-12 animate-[fadeUp_0.6s_ease_both]">
-          <h2 className="text-3xl font-bold lowercase tracking-tighter font-headline text-on-surface">technical_stack</h2>
-          <div className="h-[1px] flex-grow bg-outline-variant/20"></div>
+      <section className="mb-24 md:mb-32">
+        <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
+          <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">technical_stack</h2>
+          <div className="h-px w-full grow bg-outline-variant/20"></div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
           {[
-            { icon: 'data_object', num: '01 / core', title: 'languages', tags: ['Python','Go','Rust','TypeScript','SQL'] },
-            { icon: 'view_quilt', num: '02 / stack', title: 'frameworks', tags: ['TensorFlow','PyTorch','FastAPI','Gin','Next.js'], bg: 'bg-surface-container' },
-            { icon: 'handyman', num: '03 / workflow', title: 'tools', tags: ['Docker','Kubernetes','PostgreSQL','Redis','AWS/GCP'] },
-          ].map(({ icon, num, title, tags, bg }, i) => (
+            { icon: 'data_object', num: '01 / core', title: 'languages', tags: ['C++', 'Java', 'JavaScript', 'Python', 'PHP', 'HTML5', 'Kotlin', 'SQL'] },
+            { icon: 'deployed_code', num: '02 / frontend', title: 'frontend_&_ui', tags: ['React', 'React Router', 'Tailwind CSS', 'Bootstrap', 'Qt'] },
+            { icon: 'dns', num: '03 / backend', title: 'backend_&_runtime', tags: ['Node.js', 'Express.js', 'Nodemon', 'JWT', 'Apache', 'OpenCV'] },
+            { icon: 'cloud_queue', num: '04 / infra', title: 'cloud_database_&_tools', tags: ['Firebase', 'Supabase', 'MongoDB', 'Postgres', 'MySQL', 'MariaDB', 'Netlify', 'GitHub Pages', 'Vercel', 'NPM', 'Postman', 'Cisco', 'Arduino', 'ESPRESSIF'] },
+          ].map(({ icon, num, title, tags }, i) => (
             <div
               key={title}
-              className={`${bg ?? 'bg-surface-container-low'} p-8 border border-outline-variant/10 animate-[fadeUp_0.6s_ease_both]`}
+              className="bg-surface-container-low p-8 border border-outline-variant/10 animate-[fadeUp_0.6s_ease_both]"
               style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
             >
               <div className="flex justify-between items-center mb-8">
@@ -86,10 +87,10 @@ export default function About() {
       </section>
 
       {/* Fun Facts */}
-      <section className="mb-32">
-        <div className="flex items-center gap-4 mb-12 animate-[fadeUp_0.6s_ease_both]">
-          <h2 className="text-3xl font-bold lowercase tracking-tighter font-headline text-on-surface">fun_facts</h2>
-          <div className="h-[1px] flex-grow bg-outline-variant/20"></div>
+      <section className="mb-24 md:mb-32">
+        <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
+          <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">fun_facts</h2>
+          <div className="h-px w-full grow bg-outline-variant/20"></div>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -111,13 +112,13 @@ export default function About() {
             ))}
           </div>
           
-          <div className="bg-surface-container-high px-8 flex flex-col justify-center font-mono animate-[fadeUp_0.6s_0.3s_ease_both]" style={{ animationFillMode: 'both' }}>
+          <div className="flex flex-col justify-center bg-surface-container-high px-5 py-8 font-mono animate-[fadeUp_0.6s_0.3s_ease_both] sm:px-8" style={{ animationFillMode: 'both' }}>
             <div className="grid grid-cols-1 gap-4">
               {[
                 { label: 'languages_spoken', value: 'id / en' },
                 { label: 'focus_area', value: 'deep_learning' },
-                { label: 'currently_learning', value: 'zig' },
-                { label: 'os_choice', value: 'linux' },
+                { label: 'currently_learning', value: 'web3' },
+                { label: 'os_choice', value: 'windows/linux' },
               ].map(({ label, value }) => (
                 <div key={label} className="p-4 border-l-2 border-secondary bg-surface-container">
                   <span className="text-xs text-outline block mb-1">{label}</span>
