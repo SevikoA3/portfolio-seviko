@@ -7,6 +7,7 @@ import About from './pages/About';
 import Contacts from './pages/Contacts';
 import Publications from './pages/Publications';
 import ExperiencePage from './pages/Experience';
+import CertificatesPage from './pages/Certificates';
 
 const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98';
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/publications',
         element: <Publications />,
+      },
+      {
+        path: '/certificates',
+        element: <CertificatesPage />,
       },
       {
         path: '/contacts',
@@ -85,7 +90,7 @@ function App() {
     <>
       <RouterProvider router={router} />
       {isBooting && (
-        <div className="fixed inset-0 z-[999] overflow-hidden bg-background text-on-surface">
+        <div className="fixed inset-0 z-999 overflow-hidden bg-background text-on-surface">
           <div className="absolute inset-0 dot-grid opacity-20" />
           <div className="relative flex min-h-screen items-center justify-center px-4 sm:px-8">
             <div className="w-full max-w-3xl">
@@ -101,7 +106,7 @@ function App() {
                 </div>
               </div>
               <div className="h-px w-full overflow-hidden bg-outline-variant/20">
-                <div className="boot-loader-line h-full w-1/3 bg-gradient-to-r from-transparent via-primary to-secondary" />
+                <div className="boot-loader-line h-full w-1/3 bg-linear-to-r from-transparent via-primary to-secondary" />
               </div>
             </div>
           </div>

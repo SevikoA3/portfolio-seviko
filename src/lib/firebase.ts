@@ -141,4 +141,41 @@ export async function fetchExperiences(isLatest: boolean = false): Promise<Exper
   }
 }
 
+export interface Certificate {
+  id: string;
+  title: string;
+  issuer: string;
+  category: string;
+  issuedAtLabel: string;
+  issuedAt?: string;
+  credentialId?: string;
+  summary: string;
+  highlights: string[];
+  driveUrl: string;
+  driveFileId: string;
+  thumbnailUrl: string;
+  fileType: 'pdf' | 'image';
+  sortOrder: number;
+}
+
+export async function fetchCertificates(isLatest: boolean = false): Promise<Certificate[]> {
+  try {
+    const certificatesRef = collection(db, 'certificates');
+    const q = isLatest
+      ? query(certificatesRef, orderBy('sortOrder'), limit(3))
+      : query(certificatesRef, orderBy('sortOrder'));
+    const snapshot = await getDocs(q);
+
+    const certificates: Certificate[] = [];
+    snapshot.forEach((doc) => {
+      certificates.push({ id: doc.id, ...doc.data() } as Certificate);
+    });
+
+    return certificates;
+  } catch (error) {
+    console.error('Error fetching certificates: ', error);
+    return [];
+  }
+}
+
 export { db };

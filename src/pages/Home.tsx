@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchExperiences, fetchProjects, fetchPublications, type Experience, type Project, type Publication } from '../lib/firebase';
+import { fetchCertificates, fetchExperiences, fetchProjects, fetchPublications, type Certificate, type Experience, type Project, type Publication } from '../lib/firebase';
 import { Link } from 'react-router-dom';
 import AnimateIn from '../components/AnimateIn';
 import OrnamentLayer from '../components/OrnamentLayer';
@@ -9,19 +9,22 @@ export default function Home() {
   const [latestProjects, setLatestProjects] = useState<Project[]>([]);
   const [latestPublication, setLatestPublication] = useState<Publication | null>(null);
   const [latestExperiences, setLatestExperiences] = useState<Experience[]>([]);
+  const [latestCertificates, setLatestCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const [projData, pubData, expData] = await Promise.all([
+      const [projData, pubData, expData, certData] = await Promise.all([
         fetchProjects(true),
         fetchPublications(true),
-        fetchExperiences(true)
+        fetchExperiences(true),
+        fetchCertificates(true)
       ]);
       setLatestProjects(projData);
       setLatestPublication(pubData.length > 0 ? pubData[0] : null);
       setLatestExperiences(expData);
+      setLatestCertificates(certData);
       setLoading(false);
     };
     loadData();
@@ -238,6 +241,65 @@ export default function Home() {
                   </article>
                 </AnimateIn>
               )})}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {latestCertificates.length > 0 && (
+        <section className="relative overflow-hidden bg-background px-4 py-20 sm:px-6 md:px-12 md:py-24">
+          <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
+          <div className="relative z-10 max-w-7xl mx-auto">
+            <AnimateIn>
+              <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+                <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
+                  #certificates
+                </h2>
+                <div className="h-px w-full grow bg-outline-variant/20"></div>
+                <Link to="/certificates" className="flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline sm:shrink-0">
+                  View All <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                </Link>
+              </div>
+            </AnimateIn>
+
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+              {latestCertificates.map((certificate, idx) => (
+                <AnimateIn key={certificate.id} delay={idx * 80}>
+                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-surface transition-all duration-300 hover:border-primary/60">
+                    <div className="aspect-[4/3] overflow-hidden bg-surface-container-low">
+                      <img
+                        alt={certificate.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        src={certificate.thumbnailUrl}
+                      />
+                    </div>
+                    <div className="flex grow flex-col p-6">
+                      <div className="mb-3 flex flex-wrap items-center gap-2">
+                        <span className="border border-primary/30 bg-primary/15 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-primary">
+                          {certificate.category}
+                        </span>
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-on-surface-variant">
+                          {certificate.issuedAtLabel}
+                        </span>
+                      </div>
+                      <h3 className="mb-3 wrap-break-words text-xl font-headline font-bold text-on-surface transition-colors group-hover:text-primary">
+                        {certificate.title}
+                      </h3>
+                      <p className="mb-4 text-sm text-on-surface-variant">
+                        {certificate.issuer}
+                      </p>
+                      <p className="grow text-sm leading-relaxed text-on-surface-variant">
+                        {certificate.summary}
+                      </p>
+                      <div className="mt-6">
+                        <Link to="/certificates" className="inline-flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline">
+                          Open Vault <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                </AnimateIn>
+              ))}
             </div>
           </div>
         </section>

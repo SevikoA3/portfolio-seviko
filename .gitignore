@@ -12,7 +12,7 @@ coverage/
 .env.*
 !.env.example
 *.local
-scripts/
+scripts/*
 
 # Logs
 logs/

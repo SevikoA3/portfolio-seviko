@@ -13,7 +13,9 @@
     "seed:project": "node scripts/seed-projects.mjs",
     "sync:project": "node scripts/seed-projects.mjs",
     "seed:more-projects": "node scripts/seed-more-projects.mjs",
-    "sync:more-projects": "node scripts/seed-more-projects.mjs"
+    "sync:more-projects": "node scripts/seed-more-projects.mjs",
+    "seed:certificate": "node scripts/seed-certificates.mjs",
+    "sync:certificate": "node scripts/seed-certificates.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
