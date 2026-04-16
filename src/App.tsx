@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/Layout';
+import AdminPage from './pages/Admin';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import About from './pages/About';
@@ -10,8 +11,21 @@ import ExperiencePage from './pages/Experience';
 import CertificatesPage from './pages/Certificates';
 
 const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98';
+const ADMIN_PATH = (() => {
+  const configuredPath = import.meta.env.VITE_ADMIN_PATH?.trim();
+
+  if (!configuredPath) {
+    return '/_portfolio-admin';
+  }
+
+  return configuredPath.startsWith('/') ? configuredPath : `/${configuredPath}`;
+})();
 
 const router = createBrowserRouter([
+  {
+    path: ADMIN_PATH,
+    element: <AdminPage />,
+  },
   {
     path: '/',
     element: <Layout />,

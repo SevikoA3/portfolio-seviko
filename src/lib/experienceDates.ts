@@ -1,4 +1,4 @@
-import type { Experience, ExperienceRole } from './firebase';
+import type { Experience, ExperienceRole } from './types';
 
 type MonthParts = {
   year: number;
