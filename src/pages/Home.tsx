@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchCertificates, fetchExperiences, fetchProjects, fetchPublications, type Certificate, type Experience, type Project, type Publication } from '../lib/firebase';
+import { fetchCertificates, fetchExperiences, fetchProjects, fetchPublications } from '../lib/api';
+import type { Certificate, Experience, Project, Publication } from '../lib/types';
 import { Link } from 'react-router-dom';
 import AnimateIn from '../components/AnimateIn';
 import OrnamentLayer from '../components/OrnamentLayer';

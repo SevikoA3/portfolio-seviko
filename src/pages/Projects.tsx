@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
-import { fetchMoreProjects, fetchProjects, type MoreProject, type Project } from '../lib/firebase';
+import { fetchMoreProjects, fetchProjects } from '../lib/api';
+import type { MoreProject, Project } from '../lib/types';
 import OrnamentLayer from '../components/OrnamentLayer';
 
 /** Lightweight scroll-reveal for items that need custom inline style */

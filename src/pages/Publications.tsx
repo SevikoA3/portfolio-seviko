@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchPublications, type Publication } from '../lib/firebase';
+import { fetchPublications } from '../lib/api';
+import type { Publication } from '../lib/types';
 import AnimateIn from '../components/AnimateIn';
 import OrnamentLayer from '../components/OrnamentLayer';
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
 import OrnamentLayer from '../components/OrnamentLayer';
-import { fetchExperiences, type Experience } from '../lib/firebase';
+import { fetchExperiences } from '../lib/api';
+import type { Experience } from '../lib/types';
 import { calculateExperienceTotalDuration, calculateRoleDuration, formatExperiencePeriod } from '../lib/experienceDates';
 
 export default function ExperiencePage() {

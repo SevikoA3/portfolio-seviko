@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
 import OrnamentLayer from '../components/OrnamentLayer';
-import { fetchCertificates, type Certificate } from '../lib/firebase';
+import { fetchCertificates } from '../lib/api';
+import type { Certificate } from '../lib/types';
 
 function formatFileTypeLabel(fileType: Certificate['fileType']) {
   return fileType === 'pdf' ? 'PDF Document' : 'Image File';
