@@ -49,7 +49,7 @@ export default function CertificatesPage() {
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             {certificates.map((certificate, index) => (
               <AnimateIn key={certificate.id} delay={index * 70}>
-                <article className="group overflow-hidden rounded-[24px] border border-outline-variant/15 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_60px_rgba(7,10,24,0.28)]">
+                <article className="group overflow-hidden rounded-3xl border border-outline-variant/15 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_60px_rgba(7,10,24,0.28)]">
                   <div className="border-b border-outline-variant/10 bg-linear-to-br from-[#15152b] via-[#111222] to-[#0b0d19] p-4 sm:p-5">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       <span className="rounded-full border border-primary/30 bg-primary/12 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-primary">
@@ -60,9 +60,9 @@ export default function CertificatesPage() {
                       </span>
                     </div>
 
-                    <div className="overflow-hidden rounded-[24px] border border-white/8 bg-[#090b15]">
-                      <div className="relative aspect-[16/8.5] overflow-hidden">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(193,155,255,0.14),_transparent_52%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
+                    <div className="overflow-hidden rounded-3xl border border-white/8 bg-[#090b15]">
+                      <div className="relative aspect-16/8.5 overflow-hidden">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(193,155,255,0.14),transparent_52%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
                         <img
                           alt={certificate.title}
                           className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"

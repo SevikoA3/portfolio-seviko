@@ -266,7 +266,7 @@ export default function Home() {
               {latestCertificates.map((certificate, idx) => (
                 <AnimateIn key={certificate.id} delay={idx * 80}>
                   <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-surface transition-all duration-300 hover:border-primary/60">
-                    <div className="aspect-[4/3] overflow-hidden bg-surface-container-low">
+                    <div className="aspect-4/3 overflow-hidden bg-surface-container-low">
                       <img
                         alt={certificate.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
