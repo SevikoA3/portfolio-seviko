@@ -56,6 +56,72 @@ export default function About() {
         </div>
       </section>
 
+      {/* Education */}
+      <section className="relative mb-24 overflow-hidden md:mb-32">
+        <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
+        <div className="relative z-10">
+          <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
+            <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">
+              education
+            </h2>
+            <div className="h-px w-full grow bg-outline-variant/20"></div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {[
+              {
+                school: 'Universitas Pembangunan Nasional Veteran Yogyakarta',
+                program: 'Informatics',
+                period: 'Aug 2022 - Mar 2026',
+                grade: '3.89',
+                level: 'Bachelor of Informatics',
+              },
+              {
+                school: 'SMA Negeri 1 Yogyakarta',
+                program: 'Senior High School',
+                period: 'Jul 2019 - Jun 2022',
+                grade: null,
+                level: 'High School Diploma',
+              },
+            ].map((item, i) => (
+              <article
+                key={item.school}
+                className="group border border-outline-variant/10 bg-surface-container-low p-6 transition-colors hover:border-primary/40 sm:p-8 animate-[fadeUp_0.6s_ease_both]"
+                style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
+              >
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="mb-2 text-[10px] font-mono uppercase tracking-[0.28em] text-outline">
+                      {item.level}
+                    </p>
+                    <h3 className="text-xl font-headline font-bold lowercase tracking-tighter text-on-surface transition-colors group-hover:text-primary sm:text-2xl">
+                      {item.school}
+                    </h3>
+                  </div>
+                  <span className="material-symbols-outlined text-primary transition-transform group-hover:scale-110">
+                    school
+                  </span>
+                </div>
+
+                <div className="space-y-3 font-body text-sm leading-relaxed text-on-surface-variant">
+                  <p>
+                    <span className="text-on-surface">Program:</span> {item.program}
+                  </p>
+                  <p>
+                    <span className="text-on-surface">Period:</span> {item.period}
+                  </p>
+                  {item.grade && (
+                    <p>
+                      <span className="text-on-surface">Grade:</span> {item.grade}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Technical Stack */}
       <section className="relative mb-24 overflow-hidden md:mb-32">
         <OrnamentLayer variant="section" tone="secondary" pattern="constellation" />
