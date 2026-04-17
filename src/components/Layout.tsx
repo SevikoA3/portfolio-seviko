@@ -2,6 +2,14 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 
+function hasTouchInput() {
+  return (
+    window.matchMedia('(pointer: coarse)').matches ||
+    window.matchMedia('(hover: none)').matches ||
+    navigator.maxTouchPoints > 0
+  );
+}
+
 export default function Layout() {
   const { pathname, key } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,7 +28,10 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      hasTouchInput()
+    ) {
       return;
     }
 
@@ -143,10 +154,14 @@ export default function Layout() {
           aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#24243a]/20 bg-surface-container-low text-[#9cefff] transition-colors hover:border-[#9cefff]/40 hover:bg-surface-container md:hidden"
+          className={`inline-flex h-11 w-11 items-center justify-center rounded-full border shadow-[0_10px_30px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-200 active:scale-[0.97] md:hidden ${
+            isMobileMenuOpen
+              ? 'border-[#9cefff]/35 bg-[#111827]/92 text-[#b7f6ff]'
+              : 'border-[#c19bff]/14 bg-[#0b1020]/90 text-[#8ee1f0] hover:border-[#9cefff]/28 hover:bg-[#111827]/94 hover:text-[#c8fbff]'
+          }`}
           onClick={() => setIsMobileMenuOpen((value) => !value)}
         >
-          <span className="material-symbols-outlined text-[22px]">
+          <span className="material-symbols-outlined text-[24px] leading-none">
             {isMobileMenuOpen ? 'close' : 'menu'}
           </span>
         </button>
