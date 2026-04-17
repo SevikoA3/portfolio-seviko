@@ -1,12 +1,25 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation, useOutlet } from 'react-router-dom';
 import Lenis from 'lenis';
 
 export default function Layout() {
   const { pathname, key } = useLocation();
+  const outlet = useOutlet();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);
+  const [activeOutlet, setActiveOutlet] = useState(outlet);
+  const [leavingOutlet, setLeavingOutlet] = useState<ReactNode | null>(null);
+  const [isPageTransitioning, setIsPageTransitioning] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
+  const transitionTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!('scrollRestoration' in window.history)) return;
@@ -71,6 +84,36 @@ export default function Layout() {
 
     return () => window.clearTimeout(timeout);
   }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (outlet === activeOutlet) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = null;
+    }
+
+    if (prefersReducedMotion) {
+      setLeavingOutlet(null);
+      setActiveOutlet(outlet);
+      setIsPageTransitioning(false);
+      return;
+    }
+
+    setLeavingOutlet(activeOutlet);
+    setActiveOutlet(outlet);
+    setIsPageTransitioning(true);
+
+    transitionTimerRef.current = window.setTimeout(() => {
+      setLeavingOutlet(null);
+      setIsPageTransitioning(false);
+      transitionTimerRef.current = null;
+    }, 2000);
+  }, [activeOutlet, outlet, pathname]);
 
   return (
     <>
@@ -197,7 +240,20 @@ export default function Layout() {
       )}
 
       <div className="pt-16">
-        <Outlet />
+        <div className={`page-transition-shell ${isPageTransitioning ? 'is-transitioning' : ''}`}>
+          {leavingOutlet && (
+            <div className="page-transition-layer page-transition-layer-exit" aria-hidden="true">
+              {leavingOutlet}
+            </div>
+          )}
+          {isPageTransitioning && <div className="page-transition-veil" aria-hidden="true" />}
+          <div
+            key={key}
+            className={`page-transition-layer ${isPageTransitioning ? 'page-transition-layer-enter' : 'page-transition-layer-static'}`}
+          >
+            {activeOutlet}
+          </div>
+        </div>
       </div>
     </>
   );

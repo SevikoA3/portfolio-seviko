@@ -66,14 +66,53 @@
   }
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  background-color: var(--color-surface);
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(117 116 135 / 0.38) transparent;
+}
+
 body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
   overflow-x: hidden;
+  margin: 0;
 }
 
 #root {
+  background-color: var(--color-surface);
   overflow-x: clip;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(117 116 135 / 0.28);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(171 169 190 / 0.42);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 img,
@@ -116,4 +155,92 @@ svg {
 
 .boot-loader-line {
   animation: bootLoader 1.25s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.985);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0) scale(0.992);
+    filter: blur(8px);
+  }
+}
+
+@keyframes pageVeilIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-transition-shell {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-surface);
+}
+
+.page-transition-shell.is-transitioning {
+  overflow: clip;
+}
+
+.page-transition-layer {
+  will-change: transform, opacity, filter;
+}
+
+.page-transition-layer-static {
+  position: relative;
+}
+
+.page-transition-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top, rgb(193 155 255 / 0.06), transparent 42%),
+    linear-gradient(180deg, rgb(13 13 28 / 0.94), rgb(13 13 28 / 1));
+  animation: pageVeilIn 140ms ease-out both;
+}
+
+.page-transition-layer-enter {
+  position: relative;
+  z-index: 2;
+  animation: pageEnter 2000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-transition-layer-exit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  animation: pageExit 2000ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-layer,
+  .page-transition-layer-enter,
+  .page-transition-layer-exit {
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
 }
