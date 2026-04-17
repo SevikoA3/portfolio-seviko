@@ -1,10 +1,12 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import Lenis from 'lenis';
 
 export default function Layout() {
   const { pathname, key } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuMounted, setIsMobileMenuMounted] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     if (!('scrollRestoration' in window.history)) return;
@@ -17,18 +19,40 @@ export default function Layout() {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    const resetScroll = () => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const lenis = new Lenis({
+      autoRaf: true,
+      smoothWheel: true,
+      syncTouch: true,
+      touchMultiplier: 1.1,
+      wheelMultiplier: 0.9,
+      lerp: 0.085,
+      anchors: {
+        offset: 80,
+      },
+    });
+
+    lenisRef.current = lenis;
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
     };
+  }, []);
 
-    resetScroll();
+  useLayoutEffect(() => {
+    const lenis = lenisRef.current;
 
-    const frame = window.requestAnimationFrame(resetScroll);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+      return;
+    }
 
-    return () => window.cancelAnimationFrame(frame);
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [pathname, key]);
 
   useEffect(() => {
