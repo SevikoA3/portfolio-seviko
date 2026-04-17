@@ -72,6 +72,40 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scrollbar-color: rgba(68, 66, 96, 0.96) rgba(11, 12, 22, 0.98);
+  scrollbar-width: thin;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background:
+    linear-gradient(180deg, rgba(9, 10, 18, 0.98), rgba(16, 17, 30, 0.98));
+  border-left: 1px solid rgba(117, 116, 135, 0.08);
+}
+
+body::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(180deg, rgba(63, 61, 91, 0.94), rgba(37, 38, 58, 0.96));
+  border: 2px solid rgba(10, 11, 20, 0.98);
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 1px rgba(193, 155, 255, 0.04),
+    0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, rgba(79, 76, 114, 0.96), rgba(47, 49, 73, 0.98));
+}
+
+body::-webkit-scrollbar-corner {
+  background: var(--color-surface-container-low);
+}
+
 #root {
   overflow-x: clip;
 }
