@@ -2,6 +2,14 @@ import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Project, MoreProject, Publication, Experience, Certificate } from './types';
 
+function mapSnapshot<T>(snapshot: Awaited<ReturnType<typeof getDocs>>): T[] {
+  const items: T[] = [];
+  snapshot.forEach((documentSnapshot) => {
+    items.push({ id: documentSnapshot.id, ...(documentSnapshot.data() as any) } as T);
+  });
+  return items;
+}
+
 export async function fetchProjects(isLatest: boolean = false): Promise<Project[]> {
   try {
     const projectsRef = collection(db, 'projects');
@@ -9,13 +17,7 @@ export async function fetchProjects(isLatest: boolean = false): Promise<Project[
       ? query(projectsRef, orderBy('sortOrder'), limit(3))
       : query(projectsRef, orderBy('sortOrder'));
     const snapshot = await getDocs(q);
-
-    const projects: Project[] = [];
-    snapshot.forEach((doc) => {
-      projects.push({ id: doc.id, ...(doc.data() as any) } as Project);
-    });
-
-    return projects;
+    return mapSnapshot<Project>(snapshot);
   } catch (error) {
     console.error('Error fetching projects: ', error);
     return [];
@@ -27,13 +29,7 @@ export async function fetchMoreProjects(): Promise<MoreProject[]> {
     const moreProjectsRef = collection(db, 'moreProjects');
     const q = query(moreProjectsRef, orderBy('sortOrder'));
     const snapshot = await getDocs(q);
-
-    const moreProjects: MoreProject[] = [];
-    snapshot.forEach((doc) => {
-      moreProjects.push({ id: doc.id, ...(doc.data() as any) } as MoreProject);
-    });
-
-    return moreProjects;
+    return mapSnapshot<MoreProject>(snapshot);
   } catch (error) {
     console.error('Error fetching more projects: ', error);
     return [];
@@ -45,13 +41,7 @@ export async function fetchPublications(isLatest: boolean = false): Promise<Publ
     const pubRef = collection(db, 'publications');
     const q = isLatest ? query(pubRef, limit(1)) : query(pubRef);
     const snapshot = await getDocs(q);
-
-    const pubs: Publication[] = [];
-    snapshot.forEach((doc) => {
-      pubs.push({ id: doc.id, ...(doc.data() as any) } as Publication);
-    });
-
-    return pubs;
+    return mapSnapshot<Publication>(snapshot);
   } catch (error) {
     console.error('Error fetching publications: ', error);
     return [];
@@ -65,13 +55,7 @@ export async function fetchExperiences(isLatest: boolean = false): Promise<Exper
       ? query(experienceRef, orderBy('sortOrder'), limit(3))
       : query(experienceRef, orderBy('sortOrder'));
     const snapshot = await getDocs(q);
-
-    const experiences: Experience[] = [];
-    snapshot.forEach((doc) => {
-      experiences.push({ id: doc.id, ...(doc.data() as any) } as Experience);
-    });
-
-    return experiences;
+    return mapSnapshot<Experience>(snapshot);
   } catch (error) {
     console.error('Error fetching experiences: ', error);
     return [];
@@ -85,13 +69,7 @@ export async function fetchCertificates(isLatest: boolean = false): Promise<Cert
       ? query(certificatesRef, orderBy('sortOrder'), limit(3))
       : query(certificatesRef, orderBy('sortOrder'));
     const snapshot = await getDocs(q);
-
-    const certificates: Certificate[] = [];
-    snapshot.forEach((doc) => {
-      certificates.push({ id: doc.id, ...(doc.data() as any) } as Certificate);
-    });
-
-    return certificates;
+    return mapSnapshot<Certificate>(snapshot);
   } catch (error) {
     console.error('Error fetching certificates: ', error);
     return [];
