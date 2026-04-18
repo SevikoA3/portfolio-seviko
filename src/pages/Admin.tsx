@@ -788,10 +788,10 @@ export default function AdminPage() {
       const empty = createEmptyDocument(activeCollection);
       if ('sortOrder' in empty) {
         const nextOrder = documents.reduce((max, item) => {
-          const order = (item.data as any).sortOrder;
+          const order = 'sortOrder' in item.data ? Number(item.data.sortOrder) : 0;
           return typeof order === 'number' && order > max ? order : max;
         }, 0) + 1;
-        (empty as any).sortOrder = nextOrder;
+        (empty as Extract<EditableDocument, { sortOrder: number }>).sortOrder = nextOrder;
       }
       setDraft(empty);
       return;
@@ -866,12 +866,14 @@ export default function AdminPage() {
         const newOrder = Number(normalizedDraft.sortOrder);
         const oldOrder = isNew 
           ? undefined 
-          : (documents.find(d => d.id === selectedId)?.data as any)?.sortOrder;
+          : documents.find(d => d.id === selectedId)?.data && 'sortOrder' in documents.find(d => d.id === selectedId)!.data 
+            ? Number((documents.find(d => d.id === selectedId)!.data as { sortOrder?: number }).sortOrder)
+            : undefined;
 
         if (oldOrder !== newOrder) {
           const siblings = documents.filter(d => d.id !== selectedId);
           for (const sibling of siblings) {
-            const siblingOrder = (sibling.data as any).sortOrder ?? 0;
+            const siblingOrder = 'sortOrder' in sibling.data ? Number(sibling.data.sortOrder) : 0;
             let updatedSiblingOrder = siblingOrder;
 
             if (oldOrder === undefined) {
@@ -969,7 +971,7 @@ export default function AdminPage() {
 
           const siblings = documents.filter(d => d.id !== draggedItem.id);
           for (const sibling of siblings) {
-              const siblingOrder = (sibling.data as any).sortOrder ?? 0;
+              const siblingOrder = 'sortOrder' in sibling.data ? Number(sibling.data.sortOrder) : 0;
               let updatedSiblingOrder = siblingOrder;
 
               // Existing item moved
