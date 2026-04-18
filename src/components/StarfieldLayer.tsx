@@ -215,7 +215,7 @@ export default function StarfieldLayer() {
   }, []);
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-5 overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-90" />
       <div
         className="absolute inset-0"
