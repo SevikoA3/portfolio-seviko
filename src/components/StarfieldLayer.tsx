@@ -199,10 +199,35 @@ export default function StarfieldLayer() {
     syncCanvas();
     window.addEventListener('resize', syncCanvas);
 
+    let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (!isTouchLikeDevice) return;
+
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      // Adjust these multipliers to tune the scroll sensitivity
+      const scrollSpeed = scrollDelta * 15;
+      const maxScrollVelocity = 200;
+
+      targetVelocity.y = clamp(scrollSpeed, -maxScrollVelocity, maxScrollVelocity);
+      targetVelocity.x = MOBILE_DRIFT_X;
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        targetVelocity.y = MOBILE_DRIFT_Y;
+        targetVelocity.x = MOBILE_DRIFT_X;
+      }, 150);
+    };
+
     if (!reduceMotion) {
       if (isTouchLikeDevice) {
         targetVelocity.x = MOBILE_DRIFT_X;
         targetVelocity.y = MOBILE_DRIFT_Y;
+        window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
@@ -215,6 +240,9 @@ export default function StarfieldLayer() {
       window.removeEventListener('resize', syncCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('scroll', handleScroll);
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
 
       if (frameId) {
         window.cancelAnimationFrame(frameId);
