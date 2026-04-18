@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
-import OrnamentLayer from '../components/OrnamentLayer';
 import { fetchExperiences } from '../lib/api';
 import type { Experience } from '../lib/types';
 import { calculateExperienceTotalDuration, calculateRoleDuration, formatExperiencePeriod } from '../lib/experienceDates';
@@ -22,7 +21,6 @@ export default function ExperiencePage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
-      <OrnamentLayer variant="page" tone="secondary" pattern="constellation" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         <AnimateIn>
           <header className="mb-16 md:mb-20">
@@ -50,7 +48,7 @@ export default function ExperiencePage() {
 
               return (
               <AnimateIn key={experience.id} delay={index * 70}>
-                <article className="relative overflow-hidden border border-outline-variant/20 bg-surface-container-low p-5 sm:p-6 md:p-10">
+                <article className="glass-panel relative overflow-hidden border border-outline-variant/20 p-5 sm:p-6 md:p-10">
                   <div className="absolute left-0 top-0 h-full w-1 bg-primary/80" />
 
                   <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -108,7 +106,7 @@ export default function ExperiencePage() {
                     {experience.roles.map((role) => (
                       <div
                         key={`${experience.id}-${role.title}-${role.startDate}-${role.endDate ?? 'present'}`}
-                        className="border border-outline-variant/15 bg-surface/60 p-4 sm:p-5"
+                        className="glass-panel-soft border border-outline-variant/15 p-4 sm:p-5"
                       >
                         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                           <div className="min-w-0">
@@ -134,7 +132,7 @@ export default function ExperiencePage() {
                             {role.skills.map((skill) => (
                               <span
                                 key={`${experience.id}-${role.title}-${skill}`}
-                                className="border border-outline-variant/20 bg-surface-container-high px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-secondary"
+                                className="glass-chip border border-outline-variant/20 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-secondary"
                               >
                                 {skill}
                               </span>

@@ -2,10 +2,10 @@ import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Project, MoreProject, Publication, Experience, Certificate } from './types';
 
-function mapSnapshot<T>(snapshot: Awaited<ReturnType<typeof getDocs>>): T[] {
+function mapSnapshot<T extends { id: string }>(snapshot: Awaited<ReturnType<typeof getDocs>>): T[] {
   const items: T[] = [];
   snapshot.forEach((documentSnapshot) => {
-    items.push({ id: documentSnapshot.id, ...(documentSnapshot.data() as any) } as T);
+    items.push({ id: documentSnapshot.id, ...(documentSnapshot.data() as Omit<T, 'id'>) } as T);
   });
   return items;
 }

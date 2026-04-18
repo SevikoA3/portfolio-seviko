@@ -3,7 +3,6 @@ import { fetchCertificates, fetchExperiences, fetchProjects, fetchPublications }
 import type { Certificate, Experience, Project, Publication } from '../lib/types';
 import { Link } from 'react-router-dom';
 import AnimateIn from '../components/AnimateIn';
-import OrnamentLayer from '../components/OrnamentLayer';
 import { calculateExperienceTotalDuration, formatExperiencePeriod } from '../lib/experienceDates';
 
 export default function Home() {
@@ -54,8 +53,6 @@ export default function Home() {
 
       {/* ── 1. Hero ── bg-background ── */}
       <section className="relative flex min-h-[calc(100vh-4rem)] items-stretch overflow-hidden bg-background px-4 sm:px-6 md:px-12">
-        <div className="absolute inset-0 dot-grid z-0"></div>
-        <OrnamentLayer variant="hero" tone="primary" pattern="halo" />
         <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 py-20 md:gap-12 md:py-24 lg:grid-cols-2">
           <AnimateIn delay={0}>
             <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
@@ -81,10 +78,6 @@ export default function Home() {
           <AnimateIn delay={150} className="hidden items-center justify-center md:flex lg:justify-end">
             <div className="relative inline-flex w-full max-w-136 flex-col items-center px-4 pt-10 lg:max-w-152 lg:px-8">
               <div className="absolute right-10 top-8 h-52 w-52 rounded-full bg-primary/14 blur-3xl" />
-              <div className="absolute bottom-20 left-8 h-36 w-36 rounded-full border border-primary/20 bg-primary/8 backdrop-blur-[2px]" />
-              <div className="absolute right-0 top-20 h-20 w-20 rounded-full border border-secondary/25" />
-              <div className="absolute bottom-28 right-14 h-3 w-3 rounded-full bg-primary/70 shadow-[0_0_18px_rgba(180,145,255,0.85)]" />
-              <div className="absolute left-12 top-24 h-2 w-2 rounded-full bg-secondary/80" />
               <div className="relative z-10 flex w-full flex-col items-center">
                 <img
                   alt="Seviko Attalarik P.H"
@@ -101,7 +94,6 @@ export default function Home() {
 
       {/* ── 2. Skills ── bg-surface-container-low ── */}
       <section className="relative overflow-hidden bg-surface-container-low px-4 py-20 sm:px-6 md:px-12 md:py-24">
-        <OrnamentLayer variant="section" tone="secondary" pattern="signal" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -118,7 +110,7 @@ export default function Home() {
               { icon: 'neurology', title: 'AI, Data & Embedded Systems', tags: ['Machine Learning', 'Python', 'Data Structures', 'Algorithms', 'Arduino', 'C++', 'Tensorflow', 'PyTorch', 'Scikit-learn'] },
             ].map(({ icon, title, tags }, i) => (
               <AnimateIn key={title} delay={i * 100}>
-                <div className="p-8 bg-surface border border-outline-variant/10 group hover:border-primary/40 transition-colors h-full">
+                <div className="h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 backdrop-blur-[2px] transition-colors group hover:border-primary/40">
                   <div className="text-secondary mb-4">
                     <span className="material-symbols-outlined text-4xl">{icon}</span>
                   </div>
@@ -138,7 +130,6 @@ export default function Home() {
       {/* ── 3. Latest Publication ── bg-background ── */}
       {latestPublication && (
         <section className="relative overflow-hidden bg-background px-4 py-20 sm:px-6 md:px-12 md:py-24">
-          <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
           <div className="relative z-10 max-w-7xl mx-auto">
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -152,7 +143,7 @@ export default function Home() {
               </div>
             </AnimateIn>
             <AnimateIn delay={100}>
-              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-surface-container-low p-5 transition-colors hover:border-primary/50 sm:p-8 md:flex-row md:items-center">
+              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 backdrop-blur-[3px] transition-colors hover:border-primary/50 sm:p-8 md:flex-row md:items-center">
                 <div className="bg-primary/10 p-4 rounded-full text-primary shrink-0 hidden md:block">
                   <span className="material-symbols-outlined text-4xl">workspace_premium</span>
                 </div>
@@ -182,7 +173,6 @@ export default function Home() {
       {/* ── 4. Latest Projects ── bg-surface-container-low ── */}
       {latestExperiences.length > 0 && (
         <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${latestPublication ? 'bg-surface-container-low' : 'bg-background'}`}>
-          <OrnamentLayer variant="section" tone="secondary" pattern="constellation" />
           <div className="relative z-10 max-w-7xl mx-auto">
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -202,7 +192,7 @@ export default function Home() {
 
                 return (
                 <AnimateIn key={experience.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-surface p-6 transition-all duration-300 hover:border-primary/50">
+                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 backdrop-blur-[2px] transition-all duration-300 hover:border-primary/50">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {experience.category && (
                         <span className="border border-primary/30 bg-primary/15 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-primary">
@@ -249,7 +239,6 @@ export default function Home() {
 
       {latestCertificates.length > 0 && (
         <section className="relative overflow-hidden bg-background px-4 py-20 sm:px-6 md:px-12 md:py-24">
-          <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
           <div className="relative z-10 max-w-7xl mx-auto">
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -266,8 +255,8 @@ export default function Home() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {latestCertificates.map((certificate, idx) => (
                 <AnimateIn key={certificate.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-surface transition-all duration-300 hover:border-primary/60">
-                    <div className="aspect-4/3 overflow-hidden bg-surface-container-low">
+                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] backdrop-blur-[2px] transition-all duration-300 hover:border-primary/60">
+                    <div className="aspect-4/3 overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={certificate.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
@@ -307,7 +296,6 @@ export default function Home() {
       )}
 
       <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${projectsSectionBg}`}>
-        <OrnamentLayer variant="section" tone="primary" pattern="drift" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -329,8 +317,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {latestProjects.map((project, idx) => (
                 <AnimateIn key={project.id} delay={idx * 80}>
-                  <div className="group bg-surface border border-outline-variant/10 transition-all duration-300 hover:border-primary/60 flex flex-col h-full">
-                    <div className="aspect-video bg-surface-container-low overflow-hidden">
+                  <div className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] backdrop-blur-[2px] transition-all duration-300 hover:border-primary/60">
+                    <div className="aspect-video overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={project.title}
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
@@ -357,7 +345,6 @@ export default function Home() {
 
       {/* ── 5. About ── bg-background ── */}
       <section className={`relative overflow-hidden px-4 py-20 sm:px-6 md:px-12 md:py-24 ${aboutSectionBg}`}>
-        <OrnamentLayer variant="section" tone="secondary" pattern="halo" />
         <AnimateIn>
           <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-1/2">
@@ -375,7 +362,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="md:w-1/2 flex justify-center">
-              <div className="border border-outline-variant/20 p-6 bg-surface max-w-sm w-full">
+              <div className="w-full max-w-sm border border-outline-variant/20 bg-[rgba(13,13,28,0.72)] p-6 backdrop-blur-[3px]">
                 <div className="flex items-center gap-3 text-sm text-on-surface font-mono mb-4">
                   <span className="material-symbols-outlined text-primary text-base">terminal</span>
                   <span>currently_available: true</span>
@@ -392,8 +379,6 @@ export default function Home() {
 
       {/* ── 6. Contact CTA ── bg-surface-container-low ── */}
       <section className={`relative overflow-hidden border-t border-outline-variant/10 px-4 py-20 sm:px-6 md:px-12 md:py-24 ${contactSectionBg}`}>
-        <div className="absolute inset-0 dot-grid opacity-5 z-0"></div>
-        <OrnamentLayer variant="section" tone="primary" pattern="signal" />
         <AnimateIn className="relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 flex items-center justify-center gap-4">
@@ -405,7 +390,7 @@ export default function Home() {
               Whether you have a specific AI project in mind or need a scalable backend architecture, my inbox is always monitored.
             </p>
             <div className="flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
-              <div className="flex min-w-0 items-center space-x-3 border border-outline-variant/10 bg-surface-container-highest/50 px-4 py-3 sm:px-6">
+              <div className="flex min-w-0 items-center space-x-3 border border-outline-variant/10 bg-[rgba(29,30,50,0.52)] px-4 py-3 backdrop-blur-[3px] sm:px-6">
                 <span className="material-symbols-outlined text-primary">mail</span>
                 <span className="break-all text-sm font-mono text-on-surface">attalarik.handoko@gmail.com</span>
               </div>

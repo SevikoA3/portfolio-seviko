@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
-import OrnamentLayer from '../components/OrnamentLayer';
 import { fetchCertificates } from '../lib/api';
 import type { Certificate } from '../lib/types';
 
@@ -25,7 +24,6 @@ export default function CertificatesPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
-      <OrnamentLayer variant="page" tone="primary" pattern="drift" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         <AnimateIn>
           <header className="mb-16 md:mb-20">
@@ -50,7 +48,7 @@ export default function CertificatesPage() {
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             {certificates.map((certificate, index) => (
               <AnimateIn key={certificate.id} delay={index * 70}>
-                <article className="group overflow-hidden rounded-3xl border border-outline-variant/15 bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_60px_rgba(7,10,24,0.28)]">
+                <article className="glass-panel group overflow-hidden rounded-3xl border border-outline-variant/15 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_60px_rgba(7,10,24,0.28)]">
                   <div className="border-b border-outline-variant/10 bg-linear-to-br from-[#15152b] via-[#111222] to-[#0b0d19] p-4 sm:p-5">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       <span className="rounded-full border border-primary/30 bg-primary/12 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-primary">
@@ -96,7 +94,7 @@ export default function CertificatesPage() {
                     </div>
 
                     <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      <div className="rounded-[18px] border border-outline-variant/15 bg-surface/70 p-3.5">
+                      <div className="glass-panel-soft rounded-[18px] border border-outline-variant/15 p-3.5">
                         <div className="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-secondary">
                           issuer
                         </div>
@@ -105,7 +103,7 @@ export default function CertificatesPage() {
                         </p>
                       </div>
 
-                      <div className="rounded-[18px] border border-outline-variant/15 bg-surface/70 p-3.5">
+                      <div className="glass-panel-soft rounded-[18px] border border-outline-variant/15 p-3.5">
                         <div className="mb-2 text-[10px] font-mono uppercase tracking-[0.22em] text-secondary">
                           archive data
                         </div>
@@ -128,7 +126,7 @@ export default function CertificatesPage() {
                       {certificate.highlights.map((item) => (
                         <span
                           key={`${certificate.id}-${item}`}
-                          className="rounded-full border border-outline-variant/15 bg-surface-container-high px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.14em] text-secondary"
+                          className="glass-chip rounded-full border border-outline-variant/15 px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.14em] text-secondary"
                         >
                           {item}
                         </span>
@@ -150,7 +148,7 @@ export default function CertificatesPage() {
                         href={`https://drive.google.com/thumbnail?id=${certificate.driveFileId}&sz=w2000`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container-high px-4 py-2.5 text-[11px] uppercase tracking-[0.18em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
+                        className="glass-chip inline-flex items-center gap-2 rounded-full border border-outline-variant/20 px-4 py-2.5 text-[11px] uppercase tracking-[0.18em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
                       >
                         <span className="material-symbols-outlined text-sm">image</span>
                         open preview

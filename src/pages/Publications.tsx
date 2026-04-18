@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { fetchPublications } from '../lib/api';
 import type { Publication } from '../lib/types';
 import AnimateIn from '../components/AnimateIn';
-import OrnamentLayer from '../components/OrnamentLayer';
 
 export default function Publications() {
   const [publications, setPublications] = useState<Publication[]>([]);
@@ -20,7 +19,6 @@ export default function Publications() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
-      <OrnamentLayer variant="page" tone="primary" pattern="halo" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         <AnimateIn>
           <header className="mb-16 md:mb-20">
@@ -43,7 +41,7 @@ export default function Publications() {
           ) : (
             publications.map(pub => (
               <AnimateIn key={pub.id}>
-                <article className="group relative overflow-hidden border border-outline-variant/30 bg-surface-container-low p-5 sm:p-6 md:p-10 lg:p-12">
+                <article className="glass-panel group relative overflow-hidden border border-outline-variant/30 p-5 sm:p-6 md:p-10 lg:p-12">
                   <div className="absolute top-0 left-0 w-1 h-full bg-primary group-hover:w-2 transition-all duration-300"></div>
                   <div className="pointer-events-none absolute right-0 top-0 -mr-8 -mt-8 select-none font-headline text-[80px] font-bold opacity-[0.02] sm:-mr-10 sm:-mt-10 sm:text-[120px]">
                     IEEE

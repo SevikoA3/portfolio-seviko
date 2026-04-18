@@ -64,6 +64,21 @@
     background-size: 24px 24px;
     opacity: 0.1;
   }
+
+  .glass-panel {
+    background-color: rgba(13, 13, 28, 0.72);
+    backdrop-filter: blur(1px);
+  }
+
+  .glass-panel-soft {
+    background-color: rgba(18, 18, 35, 0.62);
+    backdrop-filter: blur(1px);
+  }
+
+  .glass-chip {
+    background-color: rgba(29, 30, 50, 0.52);
+    backdrop-filter: blur(1px);
+  }
 }
 
 body {

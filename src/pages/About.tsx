@@ -1,9 +1,6 @@
-import OrnamentLayer from '../components/OrnamentLayer';
-
 export default function About() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
-      <OrnamentLayer variant="page" tone="primary" pattern="signal" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <h1 className="mb-12 font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl md:mb-16 md:text-7xl">
         #<span className="text-primary">About</span>
@@ -43,7 +40,7 @@ export default function About() {
         </div>
         
         <div className="lg:col-span-5 relative animate-[fadeUp_0.7s_0.3s_ease_both]">
-          <div className="aspect-4/5 bg-surface-container-high border border-outline-variant/15">
+          <div className="glass-panel-soft aspect-4/5 border border-outline-variant/15">
             <img 
               className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700" 
               alt="Seviko Attalarik" 
@@ -58,7 +55,6 @@ export default function About() {
 
       {/* Education */}
       <section className="relative mb-24 overflow-hidden md:mb-32">
-        <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
         <div className="relative z-10">
           <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
             <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">
@@ -86,7 +82,7 @@ export default function About() {
             ].map((item, i) => (
               <article
                 key={item.school}
-                className="group border border-outline-variant/10 bg-surface-container-low p-6 transition-colors hover:border-primary/40 sm:p-8 animate-[fadeUp_0.6s_ease_both]"
+                className="glass-panel group border border-outline-variant/10 p-6 transition-colors hover:border-primary/40 sm:p-8 animate-[fadeUp_0.6s_ease_both]"
                 style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
@@ -124,7 +120,6 @@ export default function About() {
 
       {/* Technical Stack */}
       <section className="relative mb-24 overflow-hidden md:mb-32">
-        <OrnamentLayer variant="section" tone="secondary" pattern="constellation" />
         <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
           <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">technical_stack</h2>
@@ -140,7 +135,7 @@ export default function About() {
           ].map(({ icon, num, title, tags }, i) => (
             <div
               key={title}
-              className="bg-surface-container-low p-8 border border-outline-variant/10 animate-[fadeUp_0.6s_ease_both]"
+              className="glass-panel border border-outline-variant/10 p-8 animate-[fadeUp_0.6s_ease_both]"
               style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
             >
               <div className="flex justify-between items-center mb-8">
@@ -150,7 +145,7 @@ export default function About() {
               <h3 className="text-xl mb-6 lowercase text-on-surface font-headline">{title}</h3>
               <div className="flex flex-wrap gap-2 font-mono">
                 {tags.map(t => (
-                  <span key={t} className="px-3 py-1 bg-surface-container-high text-secondary text-[11px] hover:bg-secondary hover:text-on-secondary transition-colors cursor-default">{t}</span>
+                  <span key={t} className="glass-chip px-3 py-1 text-secondary text-[11px] hover:bg-secondary hover:text-on-secondary transition-colors cursor-default">{t}</span>
                 ))}
               </div>
             </div>
@@ -161,7 +156,6 @@ export default function About() {
 
       {/* Fun Facts */}
       <section className="relative mb-24 overflow-hidden md:mb-32">
-        <OrnamentLayer variant="section" tone="primary" pattern="orbit" />
         <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
           <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">fun_facts</h2>
@@ -178,7 +172,7 @@ export default function About() {
             ].map(({ icon, text }, i) => (
               <div
                 key={icon}
-                className="group flex items-center p-6 bg-surface-container-lowest border border-outline-variant/10 hover:border-primary/40 transition-colors animate-[fadeUp_0.6s_ease_both]"
+                className="glass-panel group flex items-center border border-outline-variant/10 p-6 transition-colors hover:border-primary/40 animate-[fadeUp_0.6s_ease_both]"
                 style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'both' }}
               >
                 <span className="material-symbols-outlined mr-6 text-primary group-hover:scale-110 transition-transform">{icon}</span>
@@ -187,7 +181,7 @@ export default function About() {
             ))}
           </div>
           
-          <div className="flex flex-col justify-center bg-surface-container-high px-5 py-8 font-mono animate-[fadeUp_0.6s_0.3s_ease_both] sm:px-8" style={{ animationFillMode: 'both' }}>
+          <div className="glass-panel-soft flex flex-col justify-center px-5 py-8 font-mono animate-[fadeUp_0.6s_0.3s_ease_both] sm:px-8" style={{ animationFillMode: 'both' }}>
             <div className="grid grid-cols-1 gap-4">
               {[
                 { label: 'languages_spoken', value: 'id / en' },
@@ -195,7 +189,7 @@ export default function About() {
                 { label: 'currently_learning', value: 'web3' },
                 { label: 'os_choice', value: 'windows / linux' },
               ].map(({ label, value }) => (
-                <div key={label} className="p-4 border-l-2 border-secondary bg-surface-container">
+                <div key={label} className="glass-chip border-l-2 border-secondary p-4">
                   <span className="text-xs text-outline block mb-1">{label}</span>
                   <span className="text-on-surface text-sm">{value}</span>
                 </div>
