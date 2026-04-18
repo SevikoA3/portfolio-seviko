@@ -1,8 +1,25 @@
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { addDoc, collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, writeBatch } from 'firebase/firestore';
 import type {
   Certificate,
   Experience,
@@ -589,6 +606,49 @@ function ExperienceRolesEditor({
   );
 }
 
+function SortableDocumentItem({ id, item, isSelected, activeCollection, onSelect }: { id: string, item: StoredDocument, isSelected: boolean, activeCollection: CollectionKey, onSelect: () => void }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 1 : 0,
+    position: 'relative' as const,
+  };
+
+  return (
+    <button
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      type="button"
+      onClick={onSelect}
+      className={`w-full border px-4 py-3 text-left transition-colors ${
+        isDragging ? 'opacity-50 border-secondary ' : ''
+      }${
+        isSelected && !isDragging
+          ? 'border-primary/35 bg-primary/10 text-on-surface'
+          : 'border-outline-variant/15 bg-surface text-on-surface-variant hover:border-primary/25 hover:text-on-surface'
+      }`}
+    >
+      <div className="font-headline text-base font-bold">
+        {getDocumentTitle(activeCollection, item.data) || 'Untitled item'}
+      </div>
+      <div className="mt-1 break-all font-mono text-[10px] uppercase tracking-[0.16em] text-outline">
+        {item.id}
+      </div>
+    </button>
+  );
+}
+
 export default function AdminPage() {
   const [authReady, setAuthReady] = useState(false);
   const [authBusy, setAuthBusy] = useState(false);
@@ -605,6 +665,17 @@ export default function AdminPage() {
   const [documents, setDocuments] = useState<StoredDocument[]>([]);
   const [selectedId, setSelectedId] = useState<string | 'new' | null>(null);
   const [draft, setDraft] = useState<EditableDocument | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const activeCollectionMeta = useMemo(
     () => COLLECTION_OPTIONS.find((option) => option.key === activeCollection)!,
@@ -714,7 +785,15 @@ export default function AdminPage() {
     setSelectedId(nextId);
 
     if (nextId === 'new') {
-      setDraft(createEmptyDocument(activeCollection));
+      const empty = createEmptyDocument(activeCollection);
+      if ('sortOrder' in empty) {
+        const nextOrder = documents.reduce((max, item) => {
+          const order = (item.data as any).sortOrder;
+          return typeof order === 'number' && order > max ? order : max;
+        }, 0) + 1;
+        (empty as any).sortOrder = nextOrder;
+      }
+      setDraft(empty);
       return;
     }
 
@@ -776,15 +855,55 @@ export default function AdminPage() {
     setPanelMessage(null);
 
     try {
-      if (selectedId === 'new' || !selectedId) {
-        const created = await addDoc(collection(db, activeCollection), normalizedDraft);
-        await refreshDocuments(created.id);
-        setPanelMessage('Item baru berhasil dibuat.');
-      } else {
-        await setDoc(doc(db, activeCollection, selectedId), normalizedDraft);
-        await refreshDocuments(selectedId);
-        setPanelMessage('Perubahan berhasil disimpan.');
+      const isNew = selectedId === 'new' || !selectedId;
+      const targetDocRef = isNew ? doc(collection(db, activeCollection)) : doc(db, activeCollection, selectedId);
+      
+      const batch = writeBatch(db);
+      batch.set(targetDocRef, normalizedDraft);
+
+      // Auto-adjust sortOrder for other documents if applicable
+      if ('sortOrder' in normalizedDraft) {
+        const newOrder = Number(normalizedDraft.sortOrder);
+        const oldOrder = isNew 
+          ? undefined 
+          : (documents.find(d => d.id === selectedId)?.data as any)?.sortOrder;
+
+        if (oldOrder !== newOrder) {
+          const siblings = documents.filter(d => d.id !== selectedId);
+          for (const sibling of siblings) {
+            const siblingOrder = (sibling.data as any).sortOrder ?? 0;
+            let updatedSiblingOrder = siblingOrder;
+
+            if (oldOrder === undefined) {
+              // New item inserted at newOrder
+              if (siblingOrder >= newOrder) updatedSiblingOrder = siblingOrder + 1;
+            } else {
+              // Existing item moved
+              if (oldOrder > newOrder) {
+                // Moved up in the list (e.g. 5 to 2). Items between 2 and 4 go down to 3 and 5.
+                if (siblingOrder >= newOrder && siblingOrder < oldOrder) {
+                  updatedSiblingOrder = siblingOrder + 1;
+                }
+              } else if (oldOrder < newOrder) {
+                // Moved down in the list (e.g. 2 to 5). Items between 3 and 5 go up to 2 and 4.
+                if (siblingOrder > oldOrder && siblingOrder <= newOrder) {
+                  updatedSiblingOrder = siblingOrder - 1;
+                }
+              }
+            }
+
+            if (updatedSiblingOrder !== siblingOrder) {
+              const sibRef = doc(db, activeCollection, sibling.id);
+              batch.update(sibRef, { sortOrder: updatedSiblingOrder });
+            }
+          }
+        }
       }
+
+      await batch.commit();
+      await refreshDocuments(targetDocRef.id);
+      
+      setPanelMessage(isNew ? 'Item baru berhasil dibuat.' : 'Perubahan berhasil disimpan & urutan disesuaikan.');
     } catch (error) {
       console.error('Unable to save document', error);
       setPanelError('Simpan gagal. Kalau rules sudah pakai `request.auth.token.admin == true`, cek claim admin akun ini.');
@@ -819,6 +938,67 @@ export default function AdminPage() {
       setPanelError('Hapus gagal. Pastikan akun ini benar-benar punya akses admin.');
     } finally {
       setSaveBusy(false);
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id || !('sortOrder' in createEmptyDocument(activeCollection))) {
+      return;
+    }
+
+    const oldIndex = documents.findIndex(item => item.id === active.id);
+    const newIndex = documents.findIndex(item => item.id === over.id);
+
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const draggedItem = documents[oldIndex];
+      const targetItem = documents[newIndex];
+
+      if ('sortOrder' in draggedItem.data && 'sortOrder' in targetItem.data) {
+        const oldOrder = Number(draggedItem.data.sortOrder);
+        const newOrder = Number(targetItem.data.sortOrder);
+        
+        // Optimistic UI updates
+        setDocuments((items) => arrayMove(items, oldIndex, newIndex));
+
+        try {
+          setSaveBusy(true);
+          const batch = writeBatch(db);
+          batch.update(doc(db, activeCollection, draggedItem.id), { sortOrder: newOrder });
+
+          const siblings = documents.filter(d => d.id !== draggedItem.id);
+          for (const sibling of siblings) {
+              const siblingOrder = (sibling.data as any).sortOrder ?? 0;
+              let updatedSiblingOrder = siblingOrder;
+
+              // Existing item moved
+              if (oldOrder > newOrder) {
+                if (siblingOrder >= newOrder && siblingOrder < oldOrder) {
+                  updatedSiblingOrder = siblingOrder + 1;
+                }
+              } else if (oldOrder < newOrder) {
+                if (siblingOrder > oldOrder && siblingOrder <= newOrder) {
+                  updatedSiblingOrder = siblingOrder - 1;
+                }
+              }
+
+              if (updatedSiblingOrder !== siblingOrder) {
+                const sibRef = doc(db, activeCollection, sibling.id);
+                batch.update(sibRef, { sortOrder: updatedSiblingOrder });
+              }
+          }
+          await batch.commit();
+          await refreshDocuments(selectedId || undefined);
+          setPanelMessage('Urutan berhasil diperbarui.');
+        } catch (error) {
+          console.error('Update order failed', error);
+          setPanelError('Gagal memperbarui urutan. Cek permission.');
+          await refreshDocuments(selectedId || undefined); // Reset on fail
+        } finally {
+          setSaveBusy(false);
+        }
+      }
     }
   };
 
@@ -950,25 +1130,27 @@ export default function AdminPage() {
                 <div className="mt-1 text-sm">Create empty item</div>
               </button>
 
-              {documents.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleSelectDocument(item.id)}
-                  className={`w-full border px-4 py-3 text-left transition-colors ${
-                    selectedId === item.id
-                      ? 'border-primary/35 bg-primary/10 text-on-surface'
-                      : 'border-outline-variant/15 bg-surface text-on-surface-variant hover:border-primary/25 hover:text-on-surface'
-                  }`}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={documents.map(d => d.id)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <div className="font-headline text-base font-bold">
-                    {getDocumentTitle(activeCollection, item.data) || 'Untitled item'}
-                  </div>
-                  <div className="mt-1 break-all font-mono text-[10px] uppercase tracking-[0.16em] text-outline">
-                    {item.id}
-                  </div>
-                </button>
-              ))}
+                  {documents.map((item) => (
+                    <SortableDocumentItem
+                      key={item.id}
+                      id={item.id}
+                      item={item}
+                      isSelected={selectedId === item.id}
+                      activeCollection={activeCollection}
+                      onSelect={() => handleSelectDocument(item.id)}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
             </div>
           </div>
         </aside>

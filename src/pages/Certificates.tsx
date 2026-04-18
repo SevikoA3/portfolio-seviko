@@ -31,7 +31,7 @@ export default function CertificatesPage() {
               #<span className="text-primary">Certificates</span>
             </h1>
             <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              A cleaner vault of certifications, awards, and competition milestones. Every entry links back to the original Drive file, with thumbnails mirrored in Firebase Storage for faster browsing.
+              A comprehensive showcase of my certifications, awards, and competition milestones that validate my continuous learning and professional growth.
             </p>
           </header>
         </AnimateIn>

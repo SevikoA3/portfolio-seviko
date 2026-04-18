@@ -64,7 +64,7 @@ export default function Projects() {
               #<span className="text-primary">Projects</span>
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              A curated set of web, mobile, backend, and machine learning projects pulled from Firestore.
+              A curated showcase of my selected works spanning across web, mobile, backend, and machine learning domains.
             </p>
           </header>
         </RevealItem>

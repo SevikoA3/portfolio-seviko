@@ -28,7 +28,7 @@ export default function ExperiencePage() {
               #<span className="text-primary">Experience</span>
             </h1>
             <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              Career timeline sourced from LinkedIn profile data, stored in Firestore, and rendered here as the portfolio&apos;s working history.
+              A chronological timeline of my professional journey, highlighting key roles, responsibilities, and achievements across various organizations.
             </p>
           </header>
         </AnimateIn>
