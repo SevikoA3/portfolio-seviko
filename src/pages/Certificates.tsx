@@ -23,7 +23,7 @@ export default function CertificatesPage() {
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background">
+    <main className="relative min-h-screen overflow-x-clip bg-background">
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         <AnimateIn>
           <header className="mb-16 md:mb-20">

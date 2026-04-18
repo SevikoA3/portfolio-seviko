@@ -98,9 +98,9 @@ export default function StarfieldLayer() {
       navigator.maxTouchPoints > 0;
     const velocity = { x: 0, y: 0 };
     const targetVelocity = { x: 0, y: 0 };
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    let stars = createStars(width, height);
+    let width = 0;
+    let height = 0;
+    let stars: Star[] = [];
     let frameId = 0;
     let lastFrame = 0;
 
@@ -113,8 +113,16 @@ export default function StarfieldLayer() {
     };
 
     const syncCanvas = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+
+      // On touch devices, ignore vertical resizes to prevent jitter when address bar hides/shows
+      if (isTouchLikeDevice && width === newWidth) {
+        return;
+      }
+
+      width = newWidth;
+      height = newHeight;
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(width * dpr);

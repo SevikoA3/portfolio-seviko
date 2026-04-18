@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background">
+    <main className="relative min-h-screen overflow-x-clip bg-background">
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <h1 className="mb-12 font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl md:mb-16 md:text-7xl">
         #<span className="text-primary">About</span>

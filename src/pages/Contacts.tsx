@@ -1,6 +1,6 @@
 export default function Contacts() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background font-body">
+    <main className="relative min-h-screen overflow-x-clip bg-background font-body">
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
         {/* Header Section */}
         <header className="mb-16 md:mb-20">

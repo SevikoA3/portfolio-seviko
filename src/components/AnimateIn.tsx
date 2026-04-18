@@ -9,6 +9,8 @@ interface AnimateInProps {
   delay?: number;
   /** Animation variant */
   variant?: 'fade-up' | 'fade-left' | 'fade-right' | 'fade';
+  /** Only animate once on mount */
+  triggerOnce?: boolean;
 }
 
 export default function AnimateIn({
@@ -16,8 +18,9 @@ export default function AnimateIn({
   className = '',
   delay = 0,
   variant = 'fade-up',
+  triggerOnce = true,
 }: AnimateInProps) {
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView(0.12, triggerOnce);
 
   const variants = {
     'fade-up':    { hidden: 'opacity-0 translate-y-8',  visible: 'opacity-100 translate-y-0' },

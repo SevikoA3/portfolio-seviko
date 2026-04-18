@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 /**
  * Returns [ref, isInView]. Tracks whether element is currently in the viewport.
- * Animates every time the element enters the screen.
+ * By default, it will only animate once when the element enters the screen to improve performance.
  */
-export function useInView(threshold = 0.12): [React.RefObject<HTMLDivElement | null>, boolean] {
+export function useInView(threshold = 0.12, triggerOnce = true): [React.RefObject<HTMLDivElement | null>, boolean] {
   const ref = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
 
@@ -14,14 +14,23 @@ export function useInView(threshold = 0.12): [React.RefObject<HTMLDivElement | n
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting); // true when entering, false when leaving
+        if (entry.isIntersecting) {
+          setInView(true);
+          if (triggerOnce) {
+            observer.unobserve(el);
+          }
+        } else if (!triggerOnce) {
+          setInView(false);
+        }
       },
       { threshold }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [threshold, triggerOnce]);
 
   return [ref, inView];
 }
