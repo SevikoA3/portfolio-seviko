@@ -42,11 +42,13 @@ export default function Home() {
       ? 'bg-background'
       : 'bg-surface-container-low';
 
-  const contactSectionBg = latestExperiences.length > 0
-    ? 'bg-background'
-    : latestPublication
-      ? 'bg-surface-container-low'
-      : 'bg-background';
+const contactSectionBg = latestExperiences.length > 0
+  ? 'bg-background'
+  : latestPublication
+    ? 'bg-surface-container-low'
+    : 'bg-background';
+
+const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98';
 
   return (
     <main className="overflow-x-clip">
@@ -82,7 +84,10 @@ export default function Home() {
                 <img
                   alt="Seviko Attalarik P.H"
                   className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
-                  src="https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98"
+                  decoding="sync"
+                  fetchPriority="high"
+                  loading="eager"
+                  src={HERO_IMAGE_URL}
                 />
                 <div className="-mt-1 h-1.25 w-[72%] rounded-full bg-linear-to-r from-transparent via-primary to-transparent opacity-100 shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
                 <div className="-mt-px h-10 w-[52%] rounded-full bg-primary/20 blur-2xl" />

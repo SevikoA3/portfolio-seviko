@@ -71,6 +71,13 @@ function App() {
 
   useEffect(() => {
     let isMounted = true;
+    const preloadLink = document.createElement('link');
+
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = HERO_IMAGE_URL;
+    preloadLink.fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
 
     const minimumDelay = new Promise<void>((resolve) => {
       window.setTimeout(resolve, 1200);
@@ -97,6 +104,7 @@ function App() {
 
     return () => {
       isMounted = false;
+      preloadLink.remove();
     };
   }, []);
 
