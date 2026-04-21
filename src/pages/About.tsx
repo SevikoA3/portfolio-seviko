@@ -169,6 +169,7 @@ export default function About() {
               { icon: 'keyboard', text: 'Writes scripts to eliminate even the smallest repetitive task.' },
               { icon: 'auto_stories', text: 'Enjoys breaking down complex systems just to rebuild them simpler.' },
               { icon: 'explore', text: 'Prefers understanding fundamentals over chasing trends.' },
+              { icon: 'sports_tennis', text: 'Can play badminton with my left and right hand :)' },
             ].map(({ icon, text }, i) => (
               <div
                 key={icon}
