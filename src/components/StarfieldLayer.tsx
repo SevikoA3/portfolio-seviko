@@ -98,6 +98,8 @@ export default function StarfieldLayer() {
       navigator.maxTouchPoints > 0;
     const velocity = { x: 0, y: 0 };
     const targetVelocity = { x: 0, y: 0 };
+    const mouseTargetVelocity = { x: 0, y: 0 };
+    const scrollTargetVelocity = { x: 0, y: 0 };
     let width = 0;
     let height = 0;
     let stars: Star[] = [];
@@ -139,8 +141,8 @@ export default function StarfieldLayer() {
       const normalizedX = clamp((clientX - width / 2) / Math.max(width / 2, 1), -1, 1);
       const normalizedY = clamp((clientY - height / 2) / Math.max(height / 2, 1), -1, 1);
 
-      targetVelocity.x = normalizedX * MAX_CURSOR_SPEED;
-      targetVelocity.y = normalizedY * MAX_CURSOR_SPEED;
+      mouseTargetVelocity.x = normalizedX * MAX_CURSOR_SPEED;
+      mouseTargetVelocity.y = normalizedY * MAX_CURSOR_SPEED;
     };
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -149,13 +151,13 @@ export default function StarfieldLayer() {
 
     const handleMouseLeave = () => {
       if (isTouchLikeDevice) {
-        targetVelocity.x = MOBILE_DRIFT_X;
-        targetVelocity.y = MOBILE_DRIFT_Y;
+        mouseTargetVelocity.x = MOBILE_DRIFT_X;
+        mouseTargetVelocity.y = MOBILE_DRIFT_Y;
         return;
       }
 
-      targetVelocity.x = 0;
-      targetVelocity.y = 0;
+      mouseTargetVelocity.x = 0;
+      mouseTargetVelocity.y = 0;
     };
 
     const animate = (now: number) => {
@@ -164,6 +166,9 @@ export default function StarfieldLayer() {
       const frameScale = deltaMs / 16.67;
 
       lastFrame = now;
+
+      targetVelocity.x = mouseTargetVelocity.x + scrollTargetVelocity.x;
+      targetVelocity.y = mouseTargetVelocity.y + scrollTargetVelocity.y;
 
       velocity.x += (targetVelocity.x - velocity.x) * 0.05 * frameScale;
       velocity.y += (targetVelocity.y - velocity.y) * 0.05 * frameScale;
@@ -203,8 +208,6 @@ export default function StarfieldLayer() {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (!isTouchLikeDevice) return;
-
       const currentScrollY = window.scrollY;
       const scrollDelta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
@@ -213,25 +216,24 @@ export default function StarfieldLayer() {
       const scrollSpeed = scrollDelta * 15;
       const maxScrollVelocity = 200;
 
-      targetVelocity.y = clamp(scrollSpeed, -maxScrollVelocity, maxScrollVelocity);
-      targetVelocity.x = MOBILE_DRIFT_X;
+      scrollTargetVelocity.y = clamp(scrollSpeed, -maxScrollVelocity, maxScrollVelocity);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        targetVelocity.y = MOBILE_DRIFT_Y;
-        targetVelocity.x = MOBILE_DRIFT_X;
+        scrollTargetVelocity.y = 0;
       }, 150);
     };
 
     if (!reduceMotion) {
       if (isTouchLikeDevice) {
-        targetVelocity.x = MOBILE_DRIFT_X;
-        targetVelocity.y = MOBILE_DRIFT_Y;
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        mouseTargetVelocity.x = MOBILE_DRIFT_X;
+        mouseTargetVelocity.y = MOBILE_DRIFT_Y;
       } else {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
       }
+      
+      window.addEventListener('scroll', handleScroll, { passive: true });
 
       frameId = window.requestAnimationFrame(animate);
     }
