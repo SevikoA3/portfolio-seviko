@@ -20,6 +20,7 @@ import type { FormEvent } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, writeBatch } from 'firebase/firestore';
+import { getSafeExternalUrl } from '../lib/safeUrl';
 import type {
   Certificate,
   Experience,
@@ -237,7 +238,33 @@ function sortDocuments(collectionKey: CollectionKey, documents: StoredDocument[]
 
 function sanitizeOptionalText(value: string): string | undefined {
   const trimmed = value.trim();
-  return trimmed === '' ? undefined : trimmed;
+  return trimmed === '' ? '' : trimmed;
+}
+
+function validateHttpsUrl(value: string, label: string, required: boolean = true): string | null {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return required ? `${label} is required.` : null;
+  }
+
+  return getSafeExternalUrl(trimmed) ? null : `${label} must use a valid HTTPS URL.`;
+}
+
+const MAX_FIRESTORE_BATCH_OPERATIONS = 500;
+
+type BatchOperation = (batch: ReturnType<typeof writeBatch>) => void;
+
+async function commitBatchOperations(operations: BatchOperation[]) {
+  for (let index = 0; index < operations.length; index += MAX_FIRESTORE_BATCH_OPERATIONS) {
+    const batch = writeBatch(db);
+
+    for (const operation of operations.slice(index, index + MAX_FIRESTORE_BATCH_OPERATIONS)) {
+      operation(batch);
+    }
+
+    await batch.commit();
+  }
 }
 
 function normalizeDocument(collectionKey: CollectionKey, documentData: EditableDocument): EditableDocument {
@@ -328,6 +355,14 @@ function validateDocument(collectionKey: CollectionKey, documentData: EditableDo
       if (!project.title.trim() || !project.description.trim() || !project.imageUrl.trim()) {
         return 'Project needs at least a title, description, and image URL.';
       }
+      const demoLinkError = validateHttpsUrl(project.demoLink ?? '', 'Demo link', false);
+      if (demoLinkError) {
+        return demoLinkError;
+      }
+      const repoLinkError = validateHttpsUrl(project.repoLink ?? '', 'Repo link', false);
+      if (repoLinkError) {
+        return repoLinkError;
+      }
       return null;
     }
     case 'moreProjects': {
@@ -335,14 +370,14 @@ function validateDocument(collectionKey: CollectionKey, documentData: EditableDo
       if (!project.title.trim() || !project.description.trim() || !project.repoLink.trim()) {
         return 'More project needs at least a title, description, and repo link.';
       }
-      return null;
+      return validateHttpsUrl(project.repoLink, 'Repo link');
     }
     case 'publications': {
       const publication = documentData as EditablePublication;
       if (!publication.title.trim() || !publication.abstract.trim() || !publication.link.trim()) {
         return 'Publication needs a title, abstract, and link.';
       }
-      return null;
+      return validateHttpsUrl(publication.link, 'Publication link');
     }
     case 'experiences': {
       const experience = documentData as EditableExperience;
@@ -362,7 +397,7 @@ function validateDocument(collectionKey: CollectionKey, documentData: EditableDo
       if (!certificate.title.trim() || !certificate.issuer.trim() || !certificate.driveUrl.trim()) {
         return 'Certificate needs a title, issuer, and Drive URL.';
       }
-      return null;
+      return validateHttpsUrl(certificate.driveUrl, 'Drive URL');
     }
   }
 }
@@ -857,21 +892,20 @@ export default function AdminPage() {
     try {
       const isNew = selectedId === 'new' || !selectedId;
       const targetDocRef = isNew ? doc(collection(db, activeCollection)) : doc(db, activeCollection, selectedId);
-      
-      const batch = writeBatch(db);
-      batch.set(targetDocRef, normalizedDraft);
+      const operations: BatchOperation[] = [];
+      operations.push((batch) => batch.set(targetDocRef, normalizedDraft));
 
       // Auto-adjust sortOrder for other documents if applicable
       if ('sortOrder' in normalizedDraft) {
         const newOrder = Number(normalizedDraft.sortOrder);
-        const oldOrder = isNew 
-          ? undefined 
-          : documents.find(d => d.id === selectedId)?.data && 'sortOrder' in documents.find(d => d.id === selectedId)!.data 
-            ? Number((documents.find(d => d.id === selectedId)!.data as { sortOrder?: number }).sortOrder)
+        const existingDocument = isNew ? undefined : documents.find((item) => item.id === selectedId);
+        const oldOrder =
+          existingDocument && 'sortOrder' in existingDocument.data
+            ? Number((existingDocument.data as { sortOrder?: number }).sortOrder)
             : undefined;
 
         if (oldOrder !== newOrder) {
-          const siblings = documents.filter(d => d.id !== selectedId);
+          const siblings = documents.filter((item) => item.id !== selectedId);
           for (const sibling of siblings) {
             const siblingOrder = 'sortOrder' in sibling.data ? Number(sibling.data.sortOrder) : 0;
             let updatedSiblingOrder = siblingOrder;
@@ -896,13 +930,13 @@ export default function AdminPage() {
 
             if (updatedSiblingOrder !== siblingOrder) {
               const sibRef = doc(db, activeCollection, sibling.id);
-              batch.update(sibRef, { sortOrder: updatedSiblingOrder });
+              operations.push((batch) => batch.update(sibRef, { sortOrder: updatedSiblingOrder }));
             }
           }
         }
       }
 
-      await batch.commit();
+      await commitBatchOperations(operations);
       await refreshDocuments(targetDocRef.id);
       
       setPanelMessage(isNew ? 'Item baru berhasil dibuat.' : 'Perubahan berhasil disimpan & urutan disesuaikan.');
@@ -966,10 +1000,10 @@ export default function AdminPage() {
 
         try {
           setSaveBusy(true);
-          const batch = writeBatch(db);
-          batch.update(doc(db, activeCollection, draggedItem.id), { sortOrder: newOrder });
+          const operations: BatchOperation[] = [];
+          operations.push((batch) => batch.update(doc(db, activeCollection, draggedItem.id), { sortOrder: newOrder }));
 
-          const siblings = documents.filter(d => d.id !== draggedItem.id);
+          const siblings = documents.filter((item) => item.id !== draggedItem.id);
           for (const sibling of siblings) {
               const siblingOrder = 'sortOrder' in sibling.data ? Number(sibling.data.sortOrder) : 0;
               let updatedSiblingOrder = siblingOrder;
@@ -987,10 +1021,10 @@ export default function AdminPage() {
 
               if (updatedSiblingOrder !== siblingOrder) {
                 const sibRef = doc(db, activeCollection, sibling.id);
-                batch.update(sibRef, { sortOrder: updatedSiblingOrder });
+                operations.push((batch) => batch.update(sibRef, { sortOrder: updatedSiblingOrder }));
               }
           }
-          await batch.commit();
+          await commitBatchOperations(operations);
           await refreshDocuments(selectedId || undefined);
           setPanelMessage('Urutan berhasil diperbarui.');
         } catch (error) {

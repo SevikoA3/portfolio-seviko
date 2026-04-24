@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { fetchMoreProjects, fetchProjects } from '../lib/api';
+import { getSafeExternalUrl } from '../lib/safeUrl';
 import type { MoreProject, Project } from '../lib/types';
 
 /** Lightweight scroll-reveal for items that need custom inline style */
@@ -79,7 +80,11 @@ export default function Projects() {
             No projects found. Add some via Firebase Console.
           </div>
         ) : (
-          projects.map((project, index) => (
+          projects.map((project, index) => {
+            const demoUrl = getSafeExternalUrl(project.demoLink);
+            const repoUrl = getSafeExternalUrl(project.repoLink);
+
+            return (
             <RevealItem key={project.id} delay={(index % 3) * 80}>
               <article className="glass-panel group flex h-full flex-col overflow-hidden rounded-[28px] border border-outline-variant/15 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_24px_80px_rgba(7,10,24,0.38)]">
                 <div className="glass-panel-soft relative h-48 overflow-hidden border-b border-outline-variant/10">
@@ -114,18 +119,18 @@ export default function Projects() {
                     ))}
                   </div>
                   <div className="mt-auto flex flex-wrap gap-3 font-mono">
-                    {project.demoLink && (
+                    {demoUrl && (
                       <a
-                        href={project.demoLink}
+                        href={demoUrl}
                         className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/16"
                       >
                         <span className="material-symbols-outlined text-sm">open_in_new</span>
                         live demo
                       </a>
                     )}
-                    {project.repoLink && (
+                    {repoUrl && (
                       <a
-                        href={project.repoLink}
+                        href={repoUrl}
                         className="glass-chip inline-flex items-center gap-2 rounded-full border border-outline-variant/20 px-4 py-2 text-xs uppercase tracking-[0.18em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
                       >
                         <span className="material-symbols-outlined text-sm">code</span>
@@ -136,7 +141,7 @@ export default function Projects() {
                 </div>
               </article>
             </RevealItem>
-          ))
+          )})
         )}
       </section>
 
@@ -151,20 +156,25 @@ export default function Projects() {
 
       <RevealItem>
         <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {moreProjects.map((project, index) => (
-            <RevealItem key={project.repoLink} delay={(index % 3) * 80}>
+          {moreProjects.map((project, index) => {
+            const repoUrl = getSafeExternalUrl(project.repoLink);
+
+            return (
+            <RevealItem key={project.id} delay={(index % 3) * 80}>
               <article className="glass-panel flex h-full flex-col rounded-[22px] border border-outline-variant/15 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/35 hover:shadow-[0_20px_56px_rgba(7,10,24,0.18)]">
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <span className="glass-chip inline-flex items-center rounded-full border border-outline-variant/15 px-3 py-1 text-[9px] font-mono uppercase tracking-[0.16em] text-secondary">
                     {project.category}
                   </span>
-                  <a
-                    href={project.repoLink}
-                    className="glass-chip inline-flex items-center gap-2 rounded-full border border-outline-variant/20 px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
-                  >
-                    <span className="material-symbols-outlined text-sm">code</span>
-                    source
-                  </a>
+                  {repoUrl && (
+                    <a
+                      href={repoUrl}
+                      className="glass-chip inline-flex items-center gap-2 rounded-full border border-outline-variant/20 px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
+                    >
+                      <span className="material-symbols-outlined text-sm">code</span>
+                      source
+                    </a>
+                  )}
                 </div>
 
                 <h3 className="mb-2 text-xl font-bold leading-tight tracking-tight text-on-surface font-headline">
@@ -185,7 +195,7 @@ export default function Projects() {
                 </div>
               </article>
             </RevealItem>
-          ))}
+          )})}
         </section>
       </RevealItem>
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
 import { fetchCertificates } from '../lib/api';
+import { getSafeExternalUrl } from '../lib/safeUrl';
 import type { Certificate } from '../lib/types';
 
 function formatFileTypeLabel(fileType: Certificate['fileType']) {
@@ -46,7 +47,10 @@ export default function CertificatesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-            {certificates.map((certificate, index) => (
+            {certificates.map((certificate, index) => {
+              const driveUrl = getSafeExternalUrl(certificate.driveUrl);
+
+              return (
               <AnimateIn key={certificate.id} delay={index * 70}>
                 <article className="glass-panel group overflow-hidden rounded-3xl border border-outline-variant/15 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_60px_rgba(7,10,24,0.28)]">
                   <div className="border-b border-outline-variant/10 bg-linear-to-br from-[#15152b] via-[#111222] to-[#0b0d19] p-4 sm:p-5">
@@ -82,15 +86,17 @@ export default function CertificatesPage() {
                         </h2>
                       </div>
 
-                      <a
-                        href={certificate.driveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 py-2 text-[11px] uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/16"
-                      >
-                        <span className="material-symbols-outlined text-sm">open_in_new</span>
-                        view
-                      </a>
+                      {driveUrl && (
+                        <a
+                          href={driveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 py-2 text-[11px] uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/16"
+                        >
+                          <span className="material-symbols-outlined text-sm">open_in_new</span>
+                          view
+                        </a>
+                      )}
                     </div>
 
                     <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -134,18 +140,20 @@ export default function CertificatesPage() {
                     </div>
 
                     <div className="flex flex-wrap gap-3">
-                      <a
-                        href={certificate.driveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-on-primary transition-all hover:brightness-110"
-                      >
-                        <span className="material-symbols-outlined text-sm">open_in_new</span>
-                        view credential
-                      </a>
+                      {driveUrl && (
+                        <a
+                          href={driveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-on-primary transition-all hover:brightness-110"
+                        >
+                          <span className="material-symbols-outlined text-sm">open_in_new</span>
+                          view credential
+                        </a>
+                      )}
 
                       <a
-                        href={`https://drive.google.com/thumbnail?id=${certificate.driveFileId}&sz=w2000`}
+                        href={`https://drive.google.com/thumbnail?id=${encodeURIComponent(certificate.driveFileId)}&sz=w2000`}
                         target="_blank"
                         rel="noreferrer"
                         className="glass-chip inline-flex items-center gap-2 rounded-full border border-outline-variant/20 px-4 py-2.5 text-[11px] uppercase tracking-[0.18em] text-secondary transition-colors hover:border-secondary/30 hover:text-on-surface"
@@ -157,7 +165,7 @@ export default function CertificatesPage() {
                   </div>
                 </article>
               </AnimateIn>
-            ))}
+            )})}
           </div>
         )}
       </div>

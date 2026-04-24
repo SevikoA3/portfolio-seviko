@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchPublications } from '../lib/api';
+import { getSafeExternalUrl } from '../lib/safeUrl';
 import type { Publication } from '../lib/types';
 import AnimateIn from '../components/AnimateIn';
 
@@ -39,7 +40,10 @@ export default function Publications() {
           ) : publications.length === 0 ? (
              <div className="text-on-surface-variant font-mono py-12">No publications found in the database.</div>
           ) : (
-            publications.map(pub => (
+            publications.map((pub) => {
+              const publicationUrl = getSafeExternalUrl(pub.link);
+
+              return (
               <AnimateIn key={pub.id}>
                 <article className="glass-panel group relative overflow-hidden border border-outline-variant/30 p-5 sm:p-6 md:p-10 lg:p-12">
                   <div className="absolute top-0 left-0 w-1 h-full bg-primary group-hover:w-2 transition-all duration-300"></div>
@@ -62,14 +66,20 @@ export default function Publications() {
                   </p>
                   
                   <div className="relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-primary font-headline transition-all hover:brightness-110 active:scale-95">
-                      <span className="material-symbols-outlined text-sm">article</span>
-                      Read Full Text
-                    </a>
+                    {publicationUrl ? (
+                      <a href={publicationUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-primary font-headline transition-all hover:brightness-110 active:scale-95">
+                        <span className="material-symbols-outlined text-sm">article</span>
+                        Read Full Text
+                      </a>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2 border border-outline-variant/25 px-6 py-3 text-sm font-mono uppercase tracking-[0.18em] text-outline">
+                        Link unavailable
+                      </span>
+                    )}
                   </div>
                 </article>
               </AnimateIn>
-            ))
+            )})
           )}
         </div>
       </div>
