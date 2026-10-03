@@ -62,10 +62,7 @@ function cloneData<T>(value: T): T {
 }
 
 function parseLines(value: string): string[] {
-  return value
-    .split('\n')
-    .map((item) => item.trim())
-    .filter(Boolean);
+  return value.split('\n');
 }
 
 function formatLines(value?: string[] | null): string {
