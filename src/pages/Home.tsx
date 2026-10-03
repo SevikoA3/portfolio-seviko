@@ -224,7 +224,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                       {experience.summary ?? `${experience.roles.length} roles recorded in this experience group.`}
                     </p>
 
-                    <div className="mt-auto space-y-3">
+                    <div className="space-y-3">
                       {experience.roles.slice(0, 2).map((role) => (
                         <div key={`${experience.id}-${role.title}-${role.startDate}-${role.endDate ?? 'present'}`} className="border-l-2 border-secondary/60 pl-3">
                           <div className="text-sm font-headline font-bold text-on-surface">{role.title}</div>
