@@ -18,7 +18,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import type { User } from 'firebase/auth';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, writeBatch } from 'firebase/firestore';
 import { getSafeExternalUrl } from '../lib/safeUrl';
 import type {
@@ -29,7 +29,10 @@ import type {
   Project,
   Publication,
 } from '../lib/types';
-import { auth, db } from '../lib/firebase';
+import { db } from '../lib/firebase';
+import { invalidatePublicDataCache } from '../lib/api';
+
+const auth = getAuth();
 
 type CollectionKey = 'projects' | 'moreProjects' | 'publications' | 'experiences' | 'certificates';
 type EditableProject = Omit<Project, 'id'>;
@@ -261,6 +264,7 @@ async function commitBatchOperations(operations: BatchOperation[]) {
     }
 
     await batch.commit();
+    invalidatePublicDataCache();
   }
 }
 
@@ -964,6 +968,7 @@ export default function AdminPage() {
 
     try {
       await deleteDoc(doc(db, activeCollection, selectedId));
+      invalidatePublicDataCache();
       await refreshDocuments();
       setPanelMessage('Item berhasil dihapus.');
     } catch (error) {

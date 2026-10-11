@@ -34,7 +34,7 @@ export default function AnimateIn({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${inView ? visible : hidden} ${className}`}
+      className={`transition-[opacity,transform,translate] duration-700 ease-out ${inView ? visible : hidden} ${className}`}
       style={{ transitionDelay: inView ? `${delay}ms` : '0ms' }}
     >
       {children}

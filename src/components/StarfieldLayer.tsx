@@ -48,10 +48,10 @@ function createStar(width: number, height: number): Star {
   };
 }
 
-function createStars(width: number, height: number) {
+function createStars(width: number, height: number, limited: boolean) {
   const count = clamp(Math.floor((width * height) / STAR_DENSITY), MIN_STAR_COUNT, MAX_STAR_COUNT);
 
-  return Array.from({ length: count }, () => createStar(width, height));
+  return Array.from({ length: limited ? Math.ceil(count / 2) : count }, () => createStar(width, height));
 }
 
 function drawStar(context: CanvasRenderingContext2D, star: Star) {
@@ -96,6 +96,8 @@ export default function StarfieldLayer() {
       window.matchMedia('(pointer: coarse)').matches ||
       window.matchMedia('(hover: none)').matches ||
       navigator.maxTouchPoints > 0;
+    const limited = isTouchLikeDevice || navigator.hardwareConcurrency <= 4;
+    const frameInterval = 1000 / (limited ? 30 : 60);
     const velocity = { x: 0, y: 0 };
     const targetVelocity = { x: 0, y: 0 };
     const mouseTargetVelocity = { x: 0, y: 0 };
@@ -126,14 +128,14 @@ export default function StarfieldLayer() {
       width = newWidth;
       height = newHeight;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, limited ? 1.5 : 2);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      stars = createStars(width, height);
+      stars = createStars(width, height, limited);
       draw();
     };
 
@@ -161,7 +163,13 @@ export default function StarfieldLayer() {
     };
 
     const animate = (now: number) => {
-      const deltaMs = clamp(lastFrame ? now - lastFrame : 16.67, 8, 32);
+      frameId = 0;
+      if (document.hidden) return;
+      if (lastFrame && now - lastFrame < frameInterval - 1) {
+        frameId = window.requestAnimationFrame(animate);
+        return;
+      }
+      const deltaMs = clamp(lastFrame ? now - lastFrame : frameInterval, 8, 64);
       const deltaSeconds = deltaMs / 1000;
       const frameScale = deltaMs / 16.67;
 
@@ -201,6 +209,13 @@ export default function StarfieldLayer() {
       frameId = window.requestAnimationFrame(animate);
     };
 
+    const handleVisibilityChange = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = 0;
+      lastFrame = 0;
+      if (!document.hidden && !reduceMotion) frameId = window.requestAnimationFrame(animate);
+    };
+
     syncCanvas();
     window.addEventListener('resize', syncCanvas);
 
@@ -235,7 +250,8 @@ export default function StarfieldLayer() {
       
       window.addEventListener('scroll', handleScroll, { passive: true });
 
-      frameId = window.requestAnimationFrame(animate);
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      if (!document.hidden) frameId = window.requestAnimationFrame(animate);
     }
 
     return () => {
@@ -243,6 +259,7 @@ export default function StarfieldLayer() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
 

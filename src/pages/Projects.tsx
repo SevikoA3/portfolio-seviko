@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
+import { useEffect, useState, type ReactNode, type CSSProperties } from 'react';
 import { fetchMoreProjects, fetchProjects } from '../lib/api';
 import { getSafeExternalUrl } from '../lib/safeUrl';
+import { useInView } from '../hooks/useInView';
 import type { MoreProject, Project } from '../lib/types';
 
 /** Lightweight scroll-reveal for items that need custom inline style */
@@ -13,27 +14,13 @@ function RevealItem({
   delay?: number;
   style?: CSSProperties;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        setInView(e.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const [ref, inView] = useInView(0.1);
 
   return (
     <div
       ref={ref}
       style={{ ...style, transitionDelay: inView ? `${delay}ms` : '0ms' }}
-      className={`transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      className={`transition-[opacity,transform,translate] duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
     >
       {children}
     </div>
@@ -90,12 +77,14 @@ export default function Projects() {
                 <div className="glass-panel-soft relative h-48 overflow-hidden border-b border-outline-variant/10">
                   <img
                     alt={project.title}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
                     src={project.imageUrl}
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#111322] via-[#111322]/35 to-transparent" />
                   <div className="absolute left-5 top-5">
-                    <span className="inline-flex items-center rounded-full border border-white/12 bg-black/25 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-white/78 backdrop-blur-sm">
+                    <span className="inline-flex items-center rounded-full border border-white/12 bg-black/25 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-white/78">
                       {project.category}
                     </span>
                   </div>

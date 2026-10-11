@@ -68,6 +68,8 @@ export default function CertificatesPage() {
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(193,155,255,0.14),transparent_52%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
                         <img
                           alt={certificate.title}
+                          loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
                           src={certificate.thumbnailUrl}
                         />

@@ -31,6 +31,7 @@ export default function Layout() {
   useEffect(() => {
     if (
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      navigator.hardwareConcurrency <= 4 ||
       hasTouchInput()
     ) {
       return;
@@ -140,7 +141,7 @@ export default function Layout() {
           aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
-          className={`inline-flex h-11 w-11 items-center justify-center rounded-full border shadow-[0_10px_30px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-200 active:scale-[0.97] md:hidden ${
+          className={`inline-flex h-11 w-11 items-center justify-center rounded-full border shadow-[0_10px_30px_rgba(0,0,0,0.24)] transition-[color,background-color,border-color,transform,scale] duration-200 active:scale-[0.97] md:hidden ${
             isMobileMenuOpen
               ? 'border-[#9cefff]/35 bg-[#111827]/92 text-[#b7f6ff]'
               : 'border-[#c19bff]/14 bg-[#0b1020]/90 text-[#8ee1f0] hover:border-[#9cefff]/28 hover:bg-[#111827]/94 hover:text-[#c8fbff]'
@@ -154,8 +155,8 @@ export default function Layout() {
       </nav>
 
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-all duration-200 ease-out ${
-          isMobileMenuOpen ? 'pointer-events-auto bg-black/50 opacity-100 backdrop-blur-sm' : 'pointer-events-none bg-black/0 opacity-0 backdrop-blur-0'
+        className={`fixed inset-0 z-40 md:hidden transition-[opacity,background-color] duration-200 ease-out ${
+          isMobileMenuOpen ? 'pointer-events-auto bg-black/50 opacity-100' : 'pointer-events-none bg-black/0 opacity-0'
         }`}
         onClick={() => setMobileMenuPath(null)}
       >

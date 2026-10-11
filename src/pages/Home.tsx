@@ -81,14 +81,17 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="relative inline-flex w-full max-w-136 flex-col items-center px-4 pt-10 lg:max-w-152 lg:px-8">
               <div className="absolute right-10 top-8 h-52 w-52 rounded-full bg-primary/14 blur-3xl" />
               <div className="relative z-10 flex w-full flex-col items-center">
-                <img
-                  alt="Seviko Attalarik P.H"
-                  className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
-                  decoding="sync"
-                  fetchPriority="high"
-                  loading="eager"
-                  src={HERO_IMAGE_URL}
-                />
+                <picture className="w-full">
+                  <source media="(min-width: 768px)" srcSet={HERO_IMAGE_URL} />
+                  <img
+                    alt="Seviko Attalarik P.H"
+                    className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+                    decoding="async"
+                    fetchPriority="high"
+                    loading="eager"
+                    src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                  />
+                </picture>
                 <div className="-mt-1 h-1.25 w-[72%] rounded-full bg-linear-to-r from-transparent via-primary to-transparent opacity-100 shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
                 <div className="-mt-px h-10 w-[52%] rounded-full bg-primary/20 blur-2xl" />
               </div>
@@ -115,7 +118,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               { icon: 'neurology', title: 'AI, Data & Embedded Systems', tags: ['Machine Learning', 'Python', 'Data Structures', 'Algorithms', 'Arduino', 'C++', 'Tensorflow', 'PyTorch', 'Scikit-learn'] },
             ].map(({ icon, title, tags }, i) => (
               <AnimateIn key={title} delay={i * 100}>
-                <div className="h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 backdrop-blur-[2px] transition-colors group hover:border-primary/40">
+                <div className="h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 transition-colors group hover:border-primary/40">
                   <div className="text-secondary mb-4">
                     <span className="material-symbols-outlined text-4xl">{icon}</span>
                   </div>
@@ -148,7 +151,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               </div>
             </AnimateIn>
             <AnimateIn delay={100}>
-              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 backdrop-blur-[3px] transition-colors hover:border-primary/50 sm:p-8 md:flex-row md:items-center">
+              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 transition-colors hover:border-primary/50 sm:p-8 md:flex-row md:items-center">
                 <div className="bg-primary/10 p-4 rounded-full text-primary shrink-0 hidden md:block">
                   <span className="material-symbols-outlined text-4xl">workspace_premium</span>
                 </div>
@@ -197,7 +200,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
                 return (
                 <AnimateIn key={experience.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 backdrop-blur-[2px] transition-all duration-300 hover:border-primary/50">
+                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 transition-colors duration-300 hover:border-primary/50">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {experience.category && (
                         <span className="border border-primary/30 bg-primary/15 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-primary">
@@ -260,10 +263,12 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {latestCertificates.map((certificate, idx) => (
                 <AnimateIn key={certificate.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] backdrop-blur-[2px] transition-all duration-300 hover:border-primary/60">
+                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] transition-colors duration-300 hover:border-primary/60">
                     <div className="aspect-4/3 overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={certificate.title}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                         src={certificate.thumbnailUrl}
                       />
@@ -322,10 +327,12 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {latestProjects.map((project, idx) => (
                 <AnimateIn key={project.id} delay={idx * 80}>
-                  <div className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] backdrop-blur-[2px] transition-all duration-300 hover:border-primary/60">
+                  <div className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] transition-colors duration-300 hover:border-primary/60">
                     <div className="aspect-video overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                         src={project.imageUrl}
                       />
@@ -367,7 +374,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               </Link>
             </div>
             <div className="md:w-1/2 flex justify-center">
-              <div className="w-full max-w-sm border border-outline-variant/20 bg-[rgba(13,13,28,0.72)] p-6 backdrop-blur-[3px]">
+              <div className="w-full max-w-sm border border-outline-variant/20 bg-[rgba(13,13,28,0.72)] p-6">
                 <div className="flex items-center gap-3 text-sm text-on-surface font-mono mb-4">
                   <span className="material-symbols-outlined text-primary text-base">terminal</span>
                   <span>currently_available: true</span>
@@ -395,7 +402,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               Whether you have a specific AI project in mind or need a scalable backend architecture, my inbox is always monitored.
             </p>
             <div className="flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
-              <div className="flex min-w-0 items-center space-x-3 border border-outline-variant/10 bg-[rgba(29,30,50,0.52)] px-4 py-3 backdrop-blur-[3px] sm:px-6">
+              <div className="flex min-w-0 items-center space-x-3 border border-outline-variant/10 bg-[rgba(29,30,50,0.52)] px-4 py-3 sm:px-6">
                 <span className="material-symbols-outlined text-primary">mail</span>
                 <span className="break-all text-sm font-mono text-on-surface">attalarik.handoko@gmail.com</span>
               </div>
