@@ -13,7 +13,6 @@ export default function Home() {
   const [latestCertificates, setLatestCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
   const [heroImageLoaded, setHeroImageLoaded] = useState(false);
-  const [heroImageError, setHeroImageError] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -81,40 +80,21 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
           </AnimateIn>
 
           <div className="relative mx-auto flex w-full max-w-60 items-end justify-center sm:max-w-72 md:max-w-104 lg:mx-0 lg:max-w-120 lg:justify-self-end">
-            <div aria-hidden="true" className="absolute inset-x-8 bottom-8 top-12 rounded-full bg-primary/15 blur-3xl" />
-            <div className="relative aspect-[4/5] w-full overflow-hidden border border-primary/20 bg-linear-to-b from-surface-container-high/50 via-surface/30 to-background/80 shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
-              <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(180,145,255,0.14),transparent_62%)]" />
-              {heroImageError ? (
-                <div role="status" className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
-                  <span aria-hidden="true" className="material-symbols-outlined text-4xl text-primary/70">account_circle</span>
-                  <span className="font-mono text-xs uppercase tracking-widest text-on-surface-variant">Portrait unavailable</span>
-                </div>
-              ) : (
-                <>
-                  {!heroImageLoaded && (
-                    <div role="status" aria-live="polite" className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                      <div aria-hidden="true" className="h-24 w-24 animate-pulse rounded-full border border-primary/20 bg-primary/10" />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-on-surface-variant">Loading portrait...</span>
-                    </div>
-                  )}
-                  <img
-                    alt="Seviko Attalarik P.H"
-                    width={800}
-                    height={1000}
-                    sizes="(min-width: 1024px) 40vw, (min-width: 640px) 45vw, 80vw"
-                    className={`relative z-10 h-full w-full object-contain object-bottom drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)] transition-opacity duration-500 ${heroImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    decoding="async"
-                    fetchPriority="high"
-                    loading="eager"
-                    onLoad={() => setHeroImageLoaded(true)}
-                    onError={() => setHeroImageError(true)}
-                    src={HERO_IMAGE_URL}
-                  />
-                </>
-              )}
-              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-20 h-16 bg-linear-to-t from-background/45 to-transparent" />
-            </div>
-            <div aria-hidden="true" className="absolute -bottom-1 left-[14%] right-[14%] z-20 h-1 rounded-full bg-linear-to-r from-transparent via-primary to-transparent shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
+            <img
+              alt="Seviko Attalarik P.H"
+              width={1024}
+              height={1024}
+              sizes="(min-width: 1024px) 40vw, (min-width: 640px) 45vw, 80vw"
+              className={`h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)] transition-opacity duration-500 ${heroImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              decoding="async"
+              fetchPriority="high"
+              loading="eager"
+              onLoad={() => setHeroImageLoaded(true)}
+              src={HERO_IMAGE_URL}
+            />
+            {heroImageLoaded && (
+              <div aria-hidden="true" className="absolute -bottom-1 left-[14%] right-[14%] h-1 rounded-full bg-linear-to-r from-transparent via-primary to-transparent shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
+            )}
           </div>
         </div>
       </section>
