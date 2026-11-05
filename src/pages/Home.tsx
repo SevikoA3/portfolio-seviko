@@ -64,8 +64,8 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               available for selected projects
             </div>
             <h1 className="mb-6 text-4xl font-headline font-bold leading-tight tracking-tighter text-on-surface sm:text-5xl md:text-6xl">
-              <span className="text-primary italic">AI/ML Engineer</span> &amp;<br />
-              Backend Developer
+              <span className="text-primary italic">AI/ML Engineer</span><br className="hidden lg:block" />{' '}
+              <span className="whitespace-nowrap">&amp; Backend Developer</span>
             </h1>
             <p className="mb-10 max-w-xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
               I&apos;m Seviko, an AI/ML engineer and backend developer who turns complex ideas into reliable products, from research prototypes to systems people can use.
@@ -118,7 +118,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               { icon: 'neurology', title: 'AI, Data & Embedded Systems', tags: ['Machine Learning', 'Python', 'Data Structures', 'Algorithms', 'Arduino', 'C++', 'Tensorflow', 'PyTorch', 'Scikit-learn'] },
             ].map(({ icon, title, tags }, i) => (
               <AnimateIn key={title} delay={i * 100}>
-                <div className="group h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
+                <div className="group h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-primary/40 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                   <div className="text-secondary mb-4">
                     <span className="material-symbols-outlined text-4xl">{icon}</span>
                   </div>
@@ -151,7 +151,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               </div>
             </AnimateIn>
             <AnimateIn delay={100}>
-              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)] sm:p-8 md:flex-row md:items-center">
+              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)] sm:p-8 md:flex-row md:items-center">
                 <div className="bg-primary/10 p-4 rounded-full text-primary shrink-0 hidden md:block">
                   <span className="material-symbols-outlined text-4xl">workspace_premium</span>
                 </div>
@@ -200,7 +200,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
                 return (
                 <AnimateIn key={experience.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
+                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {experience.category && (
                         <span className="border border-primary/30 bg-primary/15 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-primary">
@@ -263,7 +263,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {latestCertificates.map((certificate, idx) => (
                 <AnimateIn key={certificate.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
+                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-primary/60 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                     <div className="aspect-4/3 overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={certificate.title}

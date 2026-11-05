@@ -32,9 +32,19 @@ test('homepage copy uses human-first language instead of dashboard jargon', () =
 });
 
 test('homepage cards expose restrained hover motion and keyboard focus', () => {
-  assert.match(homeSource, /hover:-translate-y-1/, 'interactive cards should lift subtly on hover');
+  const homeCards = [...homeSource.matchAll(/className="([^"]*(?:group h-full|<article)[^"]*)"/g)].map(([, className]) => className);
+
+  assert.ok(homeCards.length > 0, 'homepage cards should exist');
+  assert.ok(homeCards.every((className) => !className.includes('hover:-translate-y-1')), 'homepage cards should not jump vertically on hover');
+  assert.ok(homeCards.every((className) => className.includes('motion-safe:transition-[border-color,box-shadow]')), 'homepage cards should smoothly transition border and shadow');
   assert.match(homeSource, /focus-visible:ring-2/, 'interactive controls should expose keyboard focus');
   assert.match(homeSource, /motion-safe:/, 'new motion should be opt-in for users who allow motion');
+});
+
+test('hero headline keeps ampersand with Backend Developer', () => {
+  assert.ok(heroSource, 'homepage hero section should exist');
+  assert.match(heroSource, /<span className="whitespace-nowrap">&amp; Backend Developer<\/span>/, 'ampersand should never wrap away from its title');
+  assert.doesNotMatch(heroSource, /&amp;<br\s*\/>/, 'headline should not force a line break after ampersand');
 });
 
 test('hero portrait uses most of the mobile column while preserving desktop sizing', () => {
