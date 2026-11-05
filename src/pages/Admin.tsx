@@ -30,7 +30,7 @@ import type {
   Publication,
 } from '../lib/types';
 import { db } from '../lib/firebase';
-import { invalidatePublicDataCache } from '../lib/api';
+import { invalidatePublicDataCache } from '../lib/publicDataCache';
 
 const auth = getAuth();
 
@@ -746,9 +746,6 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!authReady || !user || !isAdmin) {
-      setDocuments([]);
-      setSelectedId(null);
-      setDraft(null);
       return;
     }
 

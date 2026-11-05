@@ -4,6 +4,7 @@ import type { Certificate, Experience, Project, Publication } from '../lib/types
 import { Link } from 'react-router-dom';
 import AnimateIn from '../components/AnimateIn';
 import { calculateExperienceTotalDuration, formatExperiencePeriod } from '../lib/experienceDates';
+import { getResponsiveImageSrcSet, getResponsiveImageUrl } from '../lib/imageUrl';
 
 export default function Home() {
   const [latestProjects, setLatestProjects] = useState<Project[]>([]);
@@ -85,6 +86,9 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                   <source media="(min-width: 768px)" srcSet={HERO_IMAGE_URL} />
                   <img
                     alt="Seviko Attalarik P.H"
+                    width={800}
+                    height={1000}
+                    sizes="(min-width: 1024px) 40vw, 100vw"
                     className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
                     decoding="async"
                     fetchPriority="high"
@@ -269,8 +273,12 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                         alt={certificate.title}
                         loading="lazy"
                         decoding="async"
+                        width={640}
+                        height={480}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                        srcSet={getResponsiveImageSrcSet(certificate.thumbnailUrl, [320, 640, 960])}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                        src={certificate.thumbnailUrl}
+                        src={getResponsiveImageUrl(certificate.thumbnailUrl, 640)}
                       />
                     </div>
                     <div className="flex grow flex-col p-6">
@@ -333,8 +341,11 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
+                        width={640}
+                        height={360}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                        src={project.imageUrl}
+                        src={getResponsiveImageUrl(project.imageUrl, 640)}
                       />
                     </div>
                     <div className="p-6 flex flex-col grow">

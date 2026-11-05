@@ -1,13 +1,10 @@
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-import type { Query } from 'firebase/firestore';
-import { db } from './firebase';
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore/lite';
+import type { Query } from 'firebase/firestore/lite';
+import { db } from './firebasePublic';
+import { queryCache } from './publicDataCache';
 import type { Project, MoreProject, Publication, Experience, Certificate } from './types';
 
-const queryCache = new Map<string, { expiresAt: number; request: ReturnType<typeof getDocs> }>();
-
-export function invalidatePublicDataCache() {
-  queryCache.clear();
-}
+export { invalidatePublicDataCache } from './publicDataCache';
 
 function getCachedDocs(key: string, q: Query) {
   const cached = queryCache.get(key);
@@ -65,7 +62,9 @@ export async function fetchMoreProjects(): Promise<MoreProject[]> {
 export async function fetchPublications(isLatest: boolean = false): Promise<Publication[]> {
   try {
     const pubRef = collection(db, 'publications');
-    const q = isLatest ? query(pubRef, limit(1)) : query(pubRef);
+    const q = isLatest
+      ? query(pubRef, orderBy('year', 'desc'), limit(1))
+      : query(pubRef);
     const snapshot = await getCachedDocs(`publications:${isLatest}`, q);
     return mapSnapshot<Publication>(snapshot);
   } catch (error) {
@@ -102,4 +101,4 @@ export async function fetchCertificates(isLatest: boolean = false): Promise<Cert
   }
 }
 
-export { db } from './firebase';
+export { db } from './firebasePublic';

@@ -49,7 +49,7 @@
   --color-outline-variant: #474658;
   --color-background: #0d0d1c;
   --color-on-secondary-container: #e8fbff;
-  --color-on-primary: #3d1376;
+  --color-on-primary: #000000;
   --color-inverse-primary: #704bab;
   --color-tertiary: #94b5ff;
 
@@ -82,6 +82,27 @@ body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
   overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch],
+.lenis [data-lenis-prevent-vertical],
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 html {

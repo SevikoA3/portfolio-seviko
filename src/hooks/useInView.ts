@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { observeInView } from './inViewObserver';
 
 /**
  * Returns [ref, isInView]. Tracks whether element is currently in the viewport.
@@ -12,24 +13,7 @@ export function useInView(threshold = 0.12, triggerOnce = true): [React.RefObjec
     const el = ref.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          if (triggerOnce) {
-            observer.unobserve(el);
-          }
-        } else if (!triggerOnce) {
-          setInView(false);
-        }
-      },
-      { threshold }
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-    };
+    return observeInView(el, threshold, setInView, triggerOnce);
   }, [threshold, triggerOnce]);
 
   return [ref, inView];

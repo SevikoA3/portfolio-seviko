@@ -44,6 +44,10 @@ export default function About() {
             <img 
               className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700" 
               alt="Seviko Attalarik" 
+              width={800}
+              height={1000}
+              loading="lazy"
+              decoding="async"
               src="https://firebasestorage.googleapis.com/v0/b/portfolio-seviko.firebasestorage.app/o/bg%20putih.png?alt=media&token=6cfb4203-5e16-409a-9401-3e7bcb47bb98" 
             />
             <div className="absolute -bottom-4 -right-4 bg-primary text-on-primary p-6 font-bold text-2xl lowercase tracking-tighter hidden md:block font-headline">

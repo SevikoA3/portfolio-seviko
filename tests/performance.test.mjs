@@ -3,10 +3,8 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import vm from 'node:vm';
 import ts from 'typescript';
-import { initializeApp } from 'firebase/app';
-import * as firestore from 'firebase/firestore';
 
-const db = firestore.initializeFirestore(initializeApp({ projectId: 'performance-test' }), {});
+const db = { name: 'performance-test' };
 
 async function loadModule(path, dependencies, globals = {}) {
   const source = await readFile(new URL(path, import.meta.url), 'utf8');
@@ -28,18 +26,28 @@ test('public queries share requests, expire, retry errors, and invalidate after 
   let now = 0;
   let requests = 0;
   let fail = false;
+  const queries = [];
+  const publicCache = {
+    queryCache: new Map(),
+  };
+  publicCache.invalidatePublicDataCache = () => publicCache.queryCache.clear();
   const snapshot = { forEach: callback => callback({ id: 'one', data: () => ({ title: 'Project' }) }) };
   const api = await loadModule('../src/lib/api.ts', {
-    'firebase/firestore': {
-      ...firestore,
+    'firebase/firestore/lite': {
+      collection: (firestore, name) => ({ firestore, name }),
       getDocs: async q => {
+        queries.push(q);
         requests++;
         if (fail) throw new Error('offline');
         assert.equal(q.firestore, db);
         return snapshot;
       },
+      limit: count => ({ type: 'limit', count }),
+      orderBy: (field, direction = 'asc') => ({ type: 'orderBy', field, direction }),
+      query: (ref, ...constraints) => ({ ...ref, constraints }),
     },
-    './firebase': { db },
+    './firebasePublic': { db },
+    './publicDataCache': publicCache,
   }, { Date: { now: () => now }, console: { error() {} } });
 
   const [first, second] = await Promise.all([api.fetchProjects(true), api.fetchProjects(true)]);
@@ -67,6 +75,95 @@ test('public queries share requests, expire, retry errors, and invalidate after 
     assert.equal(items[0].id, 'one');
     assert.equal(requests, before + 1, 'each public collection must reuse its query');
   }
+
+  const latestPublicationQuery = queries.find(query => query.name === 'publications');
+  assert.deepEqual(latestPublicationQuery.constraints, [
+    { type: 'orderBy', field: 'year', direction: 'desc' },
+    { type: 'limit', count: 1 },
+  ]);
+});
+
+test('in-view elements with the same threshold share an observer', async () => {
+  let observerCount = 0;
+  const observers = [];
+  class FakeIntersectionObserver {
+    constructor(callback, options) {
+      observerCount++;
+      this.callback = callback;
+      this.options = options;
+      this.elements = new Set();
+      observers.push(this);
+    }
+
+    observe(element) {
+      this.elements.add(element);
+    }
+
+    unobserve(element) {
+      this.elements.delete(element);
+    }
+
+    disconnect() {
+      this.elements.clear();
+    }
+  }
+
+  const observerModule = await loadModule('../src/hooks/inViewObserver.ts', {}, { IntersectionObserver: FakeIntersectionObserver });
+  const firstElement = {};
+  const secondElement = {};
+  const firstCleanup = observerModule.observeInView(firstElement, 0.12, () => {});
+  const secondCleanup = observerModule.observeInView(secondElement, 0.12, () => {});
+
+  assert.equal(observerCount, 1);
+  assert.equal(observers[0].elements.size, 2);
+
+  firstCleanup();
+  assert.equal(observers[0].elements.size, 1);
+  secondCleanup();
+  assert.equal(observers[0].elements.size, 0);
+});
+
+test('smooth scrolling only enables on capable desktop devices', async () => {
+  const smoothScroll = await loadModule('../src/lib/smoothScroll.ts', {}, {});
+
+  assert.equal(smoothScroll.shouldEnableSmoothScroll({
+    reducedMotion: false,
+    touchInput: false,
+    hardwareConcurrency: 8,
+  }), true);
+  assert.equal(smoothScroll.shouldEnableSmoothScroll({
+    reducedMotion: true,
+    touchInput: false,
+    hardwareConcurrency: 8,
+  }), false);
+  assert.equal(smoothScroll.shouldEnableSmoothScroll({
+    reducedMotion: false,
+    touchInput: true,
+    hardwareConcurrency: 8,
+  }), false);
+  assert.equal(smoothScroll.shouldEnableSmoothScroll({
+    reducedMotion: false,
+    touchInput: false,
+    hardwareConcurrency: 4,
+  }), false);
+});
+
+test('responsive image URLs resize only supported Drive thumbnails', async () => {
+  const imageUrl = await loadModule('../src/lib/imageUrl.ts', {}, { URL });
+
+  assert.equal(
+    imageUrl.getResponsiveImageUrl('https://drive.google.com/thumbnail?id=abc&sz=w2000', 640),
+    'https://drive.google.com/thumbnail?id=abc&sz=w640',
+  );
+  assert.equal(
+    imageUrl.getResponsiveImageUrl('https://firebasestorage.googleapis.com/image.png', 640),
+    'https://firebasestorage.googleapis.com/image.png',
+  );
+  assert.equal(
+    imageUrl.getResponsiveImageSrcSet('https://drive.google.com/thumbnail?id=abc&sz=w2000', [320, 640]),
+    'https://drive.google.com/thumbnail?id=abc&sz=w320 320w, https://drive.google.com/thumbnail?id=abc&sz=w640 640w',
+  );
+  assert.equal(imageUrl.getResponsiveImageSrcSet('https://firebasestorage.googleapis.com/image.png', [320, 640]), undefined);
 });
 
 async function createStarfield({ touch = true, reduceMotion = false, cores = 4 } = {}) {

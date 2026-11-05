@@ -3,6 +3,7 @@ import AnimateIn from '../components/AnimateIn';
 import { fetchCertificates } from '../lib/api';
 import { getSafeExternalUrl } from '../lib/safeUrl';
 import type { Certificate } from '../lib/types';
+import { getResponsiveImageSrcSet, getResponsiveImageUrl } from '../lib/imageUrl';
 
 function formatFileTypeLabel(fileType: Certificate['fileType']) {
   return fileType === 'pdf' ? 'PDF Document' : 'Image File';
@@ -70,8 +71,12 @@ export default function CertificatesPage() {
                           alt={certificate.title}
                           loading="lazy"
                           decoding="async"
+                          width={1200}
+                          height={638}
+                          sizes="(min-width: 1280px) 50vw, 100vw"
+                          srcSet={getResponsiveImageSrcSet(certificate.thumbnailUrl, [640, 960, 1200])}
                           className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                          src={certificate.thumbnailUrl}
+                          src={getResponsiveImageUrl(certificate.thumbnailUrl, 1200)}
                         />
                       </div>
                     </div>

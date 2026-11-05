@@ -3,6 +3,7 @@ import { fetchMoreProjects, fetchProjects } from '../lib/api';
 import { getSafeExternalUrl } from '../lib/safeUrl';
 import { useInView } from '../hooks/useInView';
 import type { MoreProject, Project } from '../lib/types';
+import { getResponsiveImageSrcSet, getResponsiveImageUrl } from '../lib/imageUrl';
 
 /** Lightweight scroll-reveal for items that need custom inline style */
 function RevealItem({
@@ -79,8 +80,12 @@ export default function Projects() {
                     alt={project.title}
                     loading="lazy"
                     decoding="async"
+                    width={640}
+                    height={360}
+                    sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    srcSet={getResponsiveImageSrcSet(project.imageUrl, [320, 640, 960])}
                     className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
-                    src={project.imageUrl}
+                    src={getResponsiveImageUrl(project.imageUrl, 640)}
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#111322] via-[#111322]/35 to-transparent" />
                   <div className="absolute left-5 top-5">

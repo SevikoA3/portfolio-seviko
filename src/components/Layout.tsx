@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import Lenis from 'lenis';
 import StarfieldLayer from './StarfieldLayer';
+import { shouldEnableSmoothScroll } from '../lib/smoothScroll';
 
 function hasTouchInput() {
   return (
@@ -14,7 +14,7 @@ function hasTouchInput() {
 export default function Layout() {
   const { pathname, key } = useLocation();
   const [mobileMenuPath, setMobileMenuPath] = useState<string | null>(null);
-  const lenisRef = useRef<Lenis | null>(null);
+  const lenisRef = useRef<{ scrollTo: (value: number, options: { immediate: boolean; force: boolean }) => void } | null>(null);
   const isMobileMenuOpen = mobileMenuPath === pathname;
 
   useEffect(() => {
@@ -29,30 +29,40 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    if (
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      navigator.hardwareConcurrency <= 4 ||
-      hasTouchInput()
-    ) {
+    if (!shouldEnableSmoothScroll({
+      reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      hardwareConcurrency: navigator.hardwareConcurrency,
+      touchInput: hasTouchInput(),
+    })) {
       return;
     }
 
-    const lenis = new Lenis({
-      autoRaf: true,
-      smoothWheel: true,
-      syncTouch: true,
-      touchMultiplier: 1.1,
-      wheelMultiplier: 0.9,
-      lerp: 0.085,
-      anchors: {
-        offset: 80,
-      },
+    let disposed = false;
+    let lenis: {
+      scrollTo: (value: number, options: { immediate: boolean; force: boolean }) => void;
+      destroy: () => void;
+    } | null = null;
+
+    import('lenis').then(({ default: Lenis }) => {
+      if (disposed) return;
+
+      lenis = new Lenis({
+        autoRaf: true,
+        smoothWheel: true,
+        syncTouch: true,
+        touchMultiplier: 1.1,
+        wheelMultiplier: 0.9,
+        lerp: 0.085,
+        anchors: {
+          offset: 80,
+        },
+      });
+      lenisRef.current = lenis;
     });
 
-    lenisRef.current = lenis;
-
     return () => {
-      lenis.destroy();
+      disposed = true;
+      lenis?.destroy();
       lenisRef.current = null;
     };
   }, []);
@@ -158,10 +168,15 @@ export default function Layout() {
         className={`fixed inset-0 z-40 md:hidden transition-[opacity,background-color] duration-200 ease-out ${
           isMobileMenuOpen ? 'pointer-events-auto bg-black/50 opacity-100' : 'pointer-events-none bg-black/0 opacity-0'
         }`}
+        aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
         onClick={() => setMobileMenuPath(null)}
       >
         <div
           id="mobile-navigation"
+          role="dialog"
+          aria-modal={isMobileMenuOpen}
+          aria-label="Mobile navigation"
           className={`absolute right-4 top-16 w-[min(280px,calc(100vw-2rem))] rounded-2xl border border-[#24243a]/20 bg-[#0d0d1c]/95 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)] transition-all duration-200 ease-out ${
             isMobileMenuOpen ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-2 scale-95 opacity-0'
           }`}
@@ -170,7 +185,7 @@ export default function Layout() {
           <div className="mb-3 px-3 pt-1 text-[10px] font-mono uppercase tracking-[0.28em] text-slate-500">
             navigate
           </div>
-          <div className="flex flex-col gap-1">
+          <nav aria-label="Mobile navigation links" className="flex flex-col gap-1">
             {[
               ['home', '/'],
               ['experience', '/experience'],
@@ -185,7 +200,7 @@ export default function Layout() {
                 to={to}
                 className={({ isActive }) =>
                   `rounded-xl px-3 py-3 text-sm font-bold lowercase tracking-tighter transition-colors ${
-                    isActive ? 'bg-[#1b1b31] text-[#c19bff]' : 'text-slate-300 hover:bg-surface-container hover:text-[#9cefff]'
+                    isActive ? 'bg-[#1b1b31] text-secondary' : 'text-slate-300 hover:bg-surface-container hover:text-[#9cefff]'
                   }`
                 }
                 onClick={() => setMobileMenuPath(null)}
@@ -193,7 +208,7 @@ export default function Layout() {
                 {label}
               </NavLink>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
 
