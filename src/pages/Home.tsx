@@ -12,6 +12,8 @@ export default function Home() {
   const [latestExperiences, setLatestExperiences] = useState<Experience[]>([]);
   const [latestCertificates, setLatestCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+  const [heroImageError, setHeroImageError] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -56,7 +58,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
       {/* ── 1. Hero ── bg-background ── */}
       <section className="relative flex min-h-[calc(100vh-4rem)] items-stretch overflow-hidden bg-background px-4 sm:px-6 md:px-12">
-        <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 py-20 md:gap-12 md:py-24 lg:grid-cols-2">
+        <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-7 py-10 sm:gap-10 sm:py-14 md:gap-12 md:py-24 lg:grid-cols-2">
           <AnimateIn delay={0}>
             <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
               system.status: active_and_available
@@ -78,29 +80,42 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             </div>
           </AnimateIn>
 
-          <AnimateIn delay={150} className="hidden items-center justify-center md:flex lg:justify-end">
-            <div className="relative inline-flex w-full max-w-136 flex-col items-center px-4 pt-10 lg:max-w-152 lg:px-8">
-              <div className="absolute right-10 top-8 h-52 w-52 rounded-full bg-primary/14 blur-3xl" />
-              <div className="relative z-10 flex w-full flex-col items-center">
-                <picture className="w-full">
-                  <source media="(min-width: 768px)" srcSet={HERO_IMAGE_URL} />
+          <div className="relative mx-auto flex w-full max-w-60 items-end justify-center sm:max-w-72 md:max-w-104 lg:mx-0 lg:max-w-120 lg:justify-self-end">
+            <div aria-hidden="true" className="absolute inset-x-8 bottom-8 top-12 rounded-full bg-primary/15 blur-3xl" />
+            <div className="relative aspect-[4/5] w-full overflow-hidden border border-primary/20 bg-linear-to-b from-surface-container-high/50 via-surface/30 to-background/80 shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
+              <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(180,145,255,0.14),transparent_62%)]" />
+              {heroImageError ? (
+                <div role="status" className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+                  <span aria-hidden="true" className="material-symbols-outlined text-4xl text-primary/70">account_circle</span>
+                  <span className="font-mono text-xs uppercase tracking-widest text-on-surface-variant">Portrait unavailable</span>
+                </div>
+              ) : (
+                <>
+                  {!heroImageLoaded && (
+                    <div role="status" aria-live="polite" className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                      <div aria-hidden="true" className="h-24 w-24 animate-pulse rounded-full border border-primary/20 bg-primary/10" />
+                      <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-on-surface-variant">Loading portrait...</span>
+                    </div>
+                  )}
                   <img
                     alt="Seviko Attalarik P.H"
                     width={800}
                     height={1000}
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+                    sizes="(min-width: 1024px) 40vw, (min-width: 640px) 45vw, 80vw"
+                    className={`relative z-10 h-full w-full object-contain object-bottom drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)] transition-opacity duration-500 ${heroImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                     decoding="async"
                     fetchPriority="high"
                     loading="eager"
-                    src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                    onLoad={() => setHeroImageLoaded(true)}
+                    onError={() => setHeroImageError(true)}
+                    src={HERO_IMAGE_URL}
                   />
-                </picture>
-                <div className="-mt-1 h-1.25 w-[72%] rounded-full bg-linear-to-r from-transparent via-primary to-transparent opacity-100 shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
-                <div className="-mt-px h-10 w-[52%] rounded-full bg-primary/20 blur-2xl" />
-              </div>
+                </>
+              )}
+              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-20 h-16 bg-linear-to-t from-background/45 to-transparent" />
             </div>
-          </AnimateIn>
+            <div aria-hidden="true" className="absolute -bottom-1 left-[14%] right-[14%] z-20 h-1 rounded-full bg-linear-to-r from-transparent via-primary to-transparent shadow-[0_0_22px_rgba(180,145,255,0.75)]" />
+          </div>
         </div>
       </section>
 
