@@ -53,8 +53,8 @@
   --color-inverse-primary: #704bab;
   --color-tertiary: #94b5ff;
 
-  --font-headline: "JetBrains Mono", monospace;
-  --font-body: "JetBrains Mono", monospace;
+  --font-headline: ui-sans-serif, system-ui, sans-serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
   --font-label: "JetBrains Mono", monospace;
 }
 
@@ -67,6 +67,7 @@
 
   .glass-panel {
     background-color: rgba(13, 13, 28, 0.72);
+    backdrop-filter: blur(12px);
   }
 
   .glass-panel-soft {
@@ -157,7 +158,7 @@ svg {
 
 /* ── Scroll animation keyframes ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(28px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -173,7 +174,12 @@ svg {
 
 /* Elements that animate when entering viewport via AnimateIn component */
 .in-view {
-  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {

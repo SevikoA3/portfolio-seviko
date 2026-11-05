@@ -23,9 +23,9 @@ export default function AnimateIn({
   const [ref, inView] = useInView(0.12, triggerOnce);
 
   const variants = {
-    'fade-up':    { hidden: 'opacity-0 translate-y-8',  visible: 'opacity-100 translate-y-0' },
-    'fade-left':  { hidden: 'opacity-0 -translate-x-8', visible: 'opacity-100 translate-x-0' },
-    'fade-right': { hidden: 'opacity-0 translate-x-8',  visible: 'opacity-100 translate-x-0' },
+    'fade-up':    { hidden: 'opacity-0 translate-y-4',  visible: 'opacity-100 translate-y-0' },
+    'fade-left':  { hidden: 'opacity-0 -translate-x-4', visible: 'opacity-100 translate-x-0' },
+    'fade-right': { hidden: 'opacity-0 translate-x-4',  visible: 'opacity-100 translate-x-0' },
     'fade':       { hidden: 'opacity-0',                visible: 'opacity-100' },
   };
 
@@ -34,7 +34,7 @@ export default function AnimateIn({
   return (
     <div
       ref={ref}
-      className={`transition-[opacity,transform,translate] duration-700 ease-out ${inView ? visible : hidden} ${className}`}
+      className={`motion-safe:transition-[opacity,transform] motion-safe:duration-500 motion-safe:ease-out ${inView ? visible : hidden} ${className}`}
       style={{ transitionDelay: inView ? `${delay}ms` : '0ms' }}
     >
       {children}

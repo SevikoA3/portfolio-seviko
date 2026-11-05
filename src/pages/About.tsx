@@ -3,7 +3,7 @@ export default function About() {
     <main className="relative min-h-screen overflow-x-clip bg-background">
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-28 sm:px-6 md:px-12 md:pb-24 md:pt-32">
       <h1 className="mb-12 font-headline text-4xl font-bold tracking-tighter text-on-surface sm:text-5xl md:mb-16 md:text-7xl">
-        #<span className="text-primary">About</span>
+        <span className="text-primary">About</span>
       </h1>
       {/* Hero Bio Section */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-24 md:mb-32 items-start">
@@ -29,11 +29,11 @@ export default function About() {
             <div className="flex flex-wrap gap-4 font-mono">
               <div className="flex items-center gap-2 text-xs text-on-surface">
                 <span className="material-symbols-outlined text-primary text-sm">terminal</span>
-                <span>currently_available: true</span>
+                <span>Currently available</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-on-surface">
                 <span className="material-symbols-outlined text-secondary text-sm">location_on</span>
-                <span>origin: [YOGYAKARTA, ID]</span>
+                <span>Based in Yogyakarta, Indonesia</span>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function About() {
       <section className="relative mb-24 overflow-hidden md:mb-32">
         <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
-          <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">technical_stack</h2>
+          <h2 className="font-headline text-2xl font-bold tracking-tighter text-on-surface sm:text-3xl">Technical toolkit</h2>
           <div className="h-px w-full grow bg-outline-variant/20"></div>
         </div>
         
@@ -135,7 +135,7 @@ export default function About() {
             { icon: 'data_object', num: '01 / core', title: 'languages', tags: ['C++', 'Java', 'JavaScript', 'Python', 'PHP', 'HTML5', 'Kotlin', 'SQL'] },
             { icon: 'deployed_code', num: '02 / frontend', title: 'frontend_&_ui', tags: ['React', 'React Router', 'Tailwind CSS', 'Bootstrap', 'Qt'] },
             { icon: 'dns', num: '03 / backend', title: 'backend_&_runtime', tags: ['Node.js', 'Express.js', 'Nodemon', 'JWT', 'Apache', 'OpenCV'] },
-            { icon: 'cloud_queue', num: '04 / infra', title: 'cloud_database_&_tools', tags: ['Firebase', 'Supabase', 'MongoDB', 'Postgres', 'MySQL', 'MariaDB', 'Netlify', 'GitHub Pages', 'Vercel', 'NPM', 'Postman', 'Cisco', 'Arduino', 'ESPRESSIF'] },
+            { icon: 'cloud_queue', num: '04 / infrastructure', title: 'cloud, data & tools', tags: ['Firebase', 'Supabase', 'MongoDB', 'Postgres', 'MySQL', 'MariaDB', 'Netlify', 'GitHub Pages', 'Vercel', 'NPM', 'Postman', 'Cisco', 'Arduino', 'ESPRESSIF'] },
           ].map(({ icon, num, title, tags }, i) => (
             <div
               key={title}
@@ -162,7 +162,7 @@ export default function About() {
       <section className="relative mb-24 overflow-hidden md:mb-32">
         <div className="relative z-10">
         <div className="mb-10 flex flex-col items-start gap-3 animate-[fadeUp_0.6s_ease_both] sm:mb-12 sm:flex-row sm:items-center sm:gap-4">
-          <h2 className="font-headline text-2xl font-bold lowercase tracking-tighter text-on-surface sm:text-3xl">fun_facts</h2>
+          <h2 className="font-headline text-2xl font-bold tracking-tighter text-on-surface sm:text-3xl">A few things about me</h2>
           <div className="h-px w-full grow bg-outline-variant/20"></div>
         </div>
         

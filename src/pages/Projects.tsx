@@ -50,10 +50,10 @@ export default function Projects() {
         <RevealItem>
           <header className="mb-16 md:mb-20">
             <h1 className="mb-6 text-4xl font-bold tracking-tighter text-on-surface font-headline sm:text-5xl md:text-7xl">
-              #<span className="text-primary">Projects</span>
+              <span className="text-primary">Projects</span>
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              A curated showcase of my selected works spanning across web, mobile, backend, and machine learning domains.
+              A selection of things I&apos;ve built across web, mobile, backend, and machine learning.
             </p>
           </header>
         </RevealItem>
@@ -61,7 +61,7 @@ export default function Projects() {
       <section className="mb-24 grid grid-cols-1 gap-6 md:mb-32 md:grid-cols-2 xl:grid-cols-3">
         {loading ? (
           <div className="col-span-full flex items-center justify-center gap-2 py-20 text-secondary font-mono animate-pulse">
-            <span className="material-symbols-outlined">rotate_right</span> Loading database...
+            <span className="material-symbols-outlined animate-spin">progress_activity</span> Loading projects...
           </div>
         ) : projects.length === 0 ? (
           <div className="col-span-full py-12 text-center text-on-surface-variant font-mono">
@@ -142,7 +142,7 @@ export default function Projects() {
       <RevealItem>
         <header className="mb-12 md:mb-14">
           <h2 className="mb-4 text-3xl font-bold tracking-tighter text-on-surface font-headline sm:text-4xl">
-            ##<span className="text-secondary">More_Projects</span>
+            <span className="text-secondary">More projects</span>
           </h2>
           <div className="h-px w-full bg-outline-variant/20"></div>
         </header>

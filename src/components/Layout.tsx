@@ -91,7 +91,7 @@ export default function Layout() {
           <NavLink 
             to="/" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             home
@@ -99,7 +99,7 @@ export default function Layout() {
           <NavLink 
             to="/experience" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             experience
@@ -107,7 +107,7 @@ export default function Layout() {
           <NavLink 
             to="/projects" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             projects
@@ -115,7 +115,7 @@ export default function Layout() {
           <NavLink 
             to="/about" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             about
@@ -123,7 +123,7 @@ export default function Layout() {
           <NavLink 
             to="/publications" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             publications
@@ -131,7 +131,7 @@ export default function Layout() {
           <NavLink 
             to="/certificates" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             certificates
@@ -139,7 +139,7 @@ export default function Layout() {
           <NavLink 
             to="/contacts" 
             className={({ isActive }) => 
-              `font-label lowercase tracking-tighter transition-colors duration-300 font-bold ${isActive ? "text-[#c19bff] before:content-['#'] before:mr-0.5" : "text-slate-400 hover:text-[#9cefff]"}`
+              `relative font-label lowercase tracking-tighter transition-colors duration-300 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#0d0d1c] ${isActive ? "text-[#c19bff] after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:bg-[#c19bff] after:content-['']" : "text-slate-400 hover:text-[#9cefff]"}`
             }
           >
             contacts

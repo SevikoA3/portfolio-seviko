@@ -24,10 +24,10 @@ export default function Publications() {
         <AnimateIn>
           <header className="mb-16 md:mb-20">
             <h1 className="mb-6 wrap-break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
-              #<span className="text-primary">Publications</span>
+              <span className="text-primary">Publications</span>
             </h1>
             <p className="max-w-xl text-base text-on-surface-variant font-body sm:text-lg">
-              Peer-reviewed research and technical papers focusing on pushing the boundaries of AI, Machine Learning, and Systems Engineering.
+              Research and technical writing on AI, machine learning, and systems engineering.
             </p>
           </header>
         </AnimateIn>
@@ -35,7 +35,7 @@ export default function Publications() {
         <div className="flex flex-col gap-6 md:gap-8">
           {loading ? (
              <div className="flex justify-center py-20 text-secondary items-center animate-pulse gap-2">
-                <span className="material-symbols-outlined">rotate_right</span> Fetching academic.records...
+                <span className="material-symbols-outlined animate-spin">progress_activity</span> Loading publications...
              </div>
           ) : publications.length === 0 ? (
              <div className="text-on-surface-variant font-mono py-12">No publications found in the database.</div>
@@ -48,7 +48,7 @@ export default function Publications() {
                 <article className="glass-panel group relative overflow-hidden border border-outline-variant/30 p-5 sm:p-6 md:p-10 lg:p-12">
                   <div className="absolute top-0 left-0 w-1 h-full bg-primary group-hover:w-2 transition-all duration-300"></div>
                   <div className="pointer-events-none absolute right-0 top-0 -mr-8 -mt-8 select-none font-headline text-[80px] font-bold opacity-[0.02] sm:-mr-10 sm:-mt-10 sm:text-[120px]">
-                    IEEE
+                    PAPER
                   </div>
                   
                   <div className="relative z-10 mb-6 flex flex-wrap items-center gap-3 sm:gap-4">

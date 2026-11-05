@@ -25,17 +25,17 @@ export default function ExperiencePage() {
         <AnimateIn>
           <header className="mb-16 md:mb-20">
             <h1 className="mb-6 wrap-break-words text-3xl font-headline font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
-              #<span className="text-primary">Experience</span>
+              <span className="text-primary">Experience</span>
             </h1>
             <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              A chronological timeline of my professional journey, highlighting key roles, responsibilities, and achievements across various organizations.
+              The roles, collaborations, and responsibilities that have shaped how I work.
             </p>
           </header>
         </AnimateIn>
 
         {loading ? (
           <div className="flex items-center justify-center gap-2 py-20 font-mono text-secondary animate-pulse">
-            <span className="material-symbols-outlined">rotate_right</span> Syncing experience.timeline...
+            <span className="material-symbols-outlined animate-spin">progress_activity</span> Loading experience...
           </div>
         ) : experiences.length === 0 ? (
           <div className="py-12 font-mono text-on-surface-variant">
@@ -98,7 +98,7 @@ export default function ExperiencePage() {
                     </div>
 
                     <div className="hidden font-headline text-[64px] font-bold opacity-[0.03] lg:block">
-                      EXP
+                      EXPERIENCE
                     </div>
                   </div>
 

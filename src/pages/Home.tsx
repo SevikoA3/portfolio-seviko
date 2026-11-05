@@ -57,29 +57,30 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
       {/* ── 1. Hero ── bg-background ── */}
       <section className="relative flex min-h-[calc(100vh-4rem)] items-stretch overflow-hidden bg-background px-4 sm:px-6 md:px-12">
-        <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-7 py-10 sm:gap-10 sm:py-14 md:gap-12 md:py-24 lg:grid-cols-2">
+        <div className="z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-7 py-10 sm:gap-10 sm:py-14 md:gap-12 md:py-[clamp(3rem,10vh,6rem)] lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <AnimateIn delay={0}>
-            <div className="inline-block border border-secondary text-secondary px-3 py-1 font-label text-[10px] mb-6 tracking-widest uppercase">
-              system.status: active_and_available
+            <div className="mb-6 inline-flex items-center gap-2 border border-secondary/40 px-3 py-1 font-label text-[10px] uppercase tracking-widest text-secondary">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-secondary shadow-[0_0_12px_rgba(156,239,255,0.8)]" />
+              available for selected projects
             </div>
             <h1 className="mb-6 text-4xl font-headline font-bold leading-tight tracking-tighter text-on-surface sm:text-5xl md:text-6xl">
               <span className="text-primary italic">AI/ML Engineer</span> &amp;<br />
               Backend Developer
             </h1>
             <p className="mb-10 max-w-xl text-base leading-relaxed text-on-surface-variant font-body sm:text-lg">
-              I'm Seviko Attalarik P.H, bridging algorithmic logic and scalable architectures. Crafting high-performance backend systems and machine learning models at the edge of the digital void.
+              I&apos;m Seviko, an AI/ML engineer and backend developer who turns complex ideas into reliable products, from research prototypes to systems people can use.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Link to="/contacts" className="inline-block px-8 py-4 text-center bg-primary text-on-primary font-headline font-bold text-sm hover:brightness-110 transition-all active:scale-95">
+              <Link to="/contacts" className="inline-block bg-primary px-8 py-4 text-center text-sm font-bold text-on-primary transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95">
                 Contact me
               </Link>
-              <Link to="/projects" className="inline-block border border-outline-variant px-8 py-4 text-center text-on-surface font-headline font-bold text-sm hover:bg-surface-container-high transition-all active:scale-95">
-                View Manifest
+              <Link to="/projects" className="inline-block border border-outline-variant px-8 py-4 text-center text-sm font-bold text-on-surface transition-all hover:bg-surface-container-high focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95">
+                View my work
               </Link>
             </div>
           </AnimateIn>
 
-          <div className="relative mx-auto flex w-full max-w-60 items-end justify-center sm:max-w-72 md:max-w-104 lg:mx-0 lg:max-w-120 lg:justify-self-end">
+          <div className="relative mx-auto flex w-full max-w-[min(100%,32rem)] items-end justify-center sm:max-w-96 md:w-[min(100%,calc(100dvh-11rem))] md:max-w-[40rem] lg:mx-0 lg:max-w-[40rem] lg:justify-self-end">
             <img
               alt="Seviko Attalarik P.H"
               width={1024}
@@ -105,7 +106,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                #core_competencies
+                Core competencies
               </h2>
               <div className="h-px w-full grow bg-outline-variant/20"></div>
             </div>
@@ -117,7 +118,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               { icon: 'neurology', title: 'AI, Data & Embedded Systems', tags: ['Machine Learning', 'Python', 'Data Structures', 'Algorithms', 'Arduino', 'C++', 'Tensorflow', 'PyTorch', 'Scikit-learn'] },
             ].map(({ icon, title, tags }, i) => (
               <AnimateIn key={title} delay={i * 100}>
-                <div className="h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 transition-colors group hover:border-primary/40">
+                <div className="group h-full border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-8 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                   <div className="text-secondary mb-4">
                     <span className="material-symbols-outlined text-4xl">{icon}</span>
                   </div>
@@ -141,7 +142,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                  #latest_publication
+                  Latest publication
                 </h2>
                 <div className="h-px w-full grow bg-outline-variant/20"></div>
                 <Link to="/publications" className="flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline sm:shrink-0">
@@ -150,7 +151,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               </div>
             </AnimateIn>
             <AnimateIn delay={100}>
-              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 transition-colors hover:border-primary/50 sm:p-8 md:flex-row md:items-center">
+              <div className="flex flex-col items-start gap-6 border border-primary/20 bg-[rgba(18,18,35,0.74)] p-5 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)] sm:p-8 md:flex-row md:items-center">
                 <div className="bg-primary/10 p-4 rounded-full text-primary shrink-0 hidden md:block">
                   <span className="material-symbols-outlined text-4xl">workspace_premium</span>
                 </div>
@@ -167,7 +168,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                   </p>
                 </div>
                 <div className="mt-2 w-full shrink-0 md:mt-0 md:w-auto">
-                  <Link to="/publications" className="block w-full bg-primary px-6 py-3 text-center text-sm font-bold text-on-primary font-headline transition-all hover:brightness-110 active:scale-95 md:w-auto md:whitespace-nowrap">
+                  <Link to="/publications" className="block w-full bg-primary px-6 py-3 text-center text-sm font-bold text-on-primary transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95 md:w-auto md:whitespace-nowrap">
                     Read Paper
                   </Link>
                 </div>
@@ -184,7 +185,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                  #experience
+                  Experience
                 </h2>
                 <div className="h-px w-full grow bg-outline-variant/20"></div>
                 <Link to="/experience" className="flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline sm:shrink-0">
@@ -199,7 +200,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
                 return (
                 <AnimateIn key={experience.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 transition-colors duration-300 hover:border-primary/50">
+                  <article className="group flex h-full flex-col border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] p-6 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {experience.category && (
                         <span className="border border-primary/30 bg-primary/15 px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-primary">
@@ -212,7 +213,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                         </span>
                       )}
                       {totalDuration && (
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-outline">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-on-surface-variant">
                           {totalDuration}
                         </span>
                       )}
@@ -250,7 +251,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <AnimateIn>
               <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                  #certificates
+                  Certificates
                 </h2>
                 <div className="h-px w-full grow bg-outline-variant/20"></div>
                 <Link to="/certificates" className="flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline sm:shrink-0">
@@ -262,7 +263,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {latestCertificates.map((certificate, idx) => (
                 <AnimateIn key={certificate.id} delay={idx * 80}>
-                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] transition-colors duration-300 hover:border-primary/60">
+                  <article className="group flex h-full flex-col overflow-hidden border border-outline-variant/10 bg-[rgba(13,13,28,0.72)] motion-safe:transition-[transform,border-color,box-shadow] motion-safe:duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_18px_50px_rgba(7,10,24,0.24)]">
                     <div className="aspect-4/3 overflow-hidden bg-[rgba(18,18,35,0.62)]">
                       <img
                         alt={certificate.title}
@@ -296,7 +297,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                       </p>
                       <div className="mt-6">
                         <Link to="/certificates" className="inline-flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline">
-                          Open Vault <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                          View certificate <span className="material-symbols-outlined text-sm">arrow_outward</span>
                         </Link>
                       </div>
                     </div>
@@ -313,7 +314,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
           <AnimateIn>
             <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                #latest_projects
+                Latest projects
               </h2>
               <div className="h-px w-full grow bg-outline-variant/20"></div>
               <Link to="/projects" className="flex items-center gap-2 text-primary font-label text-xs uppercase hover:underline sm:shrink-0">
@@ -324,7 +325,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
 
           {loading ? (
             <div className="flex justify-center py-20 text-secondary items-center animate-pulse gap-2">
-              <span className="material-symbols-outlined">rotate_right</span> Loading data.streams...
+              <span className="material-symbols-outlined animate-spin">progress_activity</span> Loading selected work...
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -347,9 +348,9 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                       <div className="font-label text-[10px] text-secondary mb-2 uppercase tracking-tighter">{project.category}</div>
                       <h3 className="mb-3 wrap-break-words text-xl font-headline font-bold text-on-surface transition-colors group-hover:text-primary">{project.title}</h3>
                       <p className="mb-6 wrap-break-words text-sm leading-relaxed text-on-surface-variant grow">{project.description}</p>
-                      <div className="flex flex-wrap gap-2 mt-auto">
+                      <div className="mt-auto flex flex-wrap gap-2">
                         {project.tags.map(tag => (
-                          <span key={tag} className="text-[9px] font-label text-outline uppercase">{tag}</span>
+                          <span key={tag} className="text-[9px] font-label uppercase text-on-surface-variant">{tag}</span>
                         ))}
                       </div>
                     </div>
@@ -368,7 +369,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
             <div className="md:w-1/2">
               <div className="mb-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                  #about
+                  About
                 </h2>
                 <div className="h-px w-full grow bg-outline-variant/20"></div>
               </div>
@@ -383,11 +384,11 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
               <div className="w-full max-w-sm border border-outline-variant/20 bg-[rgba(13,13,28,0.72)] p-6">
                 <div className="flex items-center gap-3 text-sm text-on-surface font-mono mb-4">
                   <span className="material-symbols-outlined text-primary text-base">terminal</span>
-                  <span>currently_available: true</span>
+                  <span>Currently available</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-on-surface font-mono">
                   <span className="material-symbols-outlined text-secondary text-base">location_on</span>
-                  <span>origin: [YOGYAKARTA, ID]</span>
+                  <span>Based in Yogyakarta, Indonesia</span>
                 </div>
               </div>
             </div>
@@ -401,7 +402,7 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 flex items-center justify-center gap-4">
               <h2 className="text-3xl font-headline font-bold lowercase tracking-tighter text-on-surface sm:text-4xl">
-                #contact
+                Contact
               </h2>
             </div>
             <p className="text-on-surface-variant font-body mb-10 max-w-xl mx-auto leading-relaxed text-lg">
@@ -412,8 +413,8 @@ const HERO_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/portfolio-se
                 <span className="material-symbols-outlined text-primary">mail</span>
                 <span className="break-all text-sm font-mono text-on-surface">attalarik.handoko@gmail.com</span>
               </div>
-              <Link to="/contacts" className="bg-primary px-8 py-3 text-center text-sm font-bold uppercase tracking-wider text-on-primary font-headline transition-all hover:brightness-110">
-                Full Contact Info
+              <Link to="/contacts" className="bg-primary px-8 py-3 text-center text-sm font-bold uppercase tracking-wider text-on-primary transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                Let&apos;s talk
               </Link>
             </div>
           </div>

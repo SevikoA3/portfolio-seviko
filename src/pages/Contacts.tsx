@@ -5,10 +5,10 @@ export default function Contacts() {
         {/* Header Section */}
         <header className="mb-16 md:mb-20">
           <h1 className="mb-4 wrap-break-words font-headline text-3xl font-bold tracking-tighter text-on-surface sm:text-4xl md:text-6xl lg:text-7xl">
-            #<span className="text-primary">Contacts</span>
+            <span className="text-primary">Contacts</span>
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            Let&apos;s bridge the gap between data logic and execution. I&apos;m currently open to new collaborations and high-impact machine learning projects.
+            I&apos;m open to thoughtful collaborations, useful products, and challenging machine learning work.
           </p>
         </header>
 
@@ -22,7 +22,7 @@ export default function Contacts() {
             <span className="material-symbols-outlined text-outline-variant">arrow_outward</span>
           </div>
           <p className="text-on-surface-variant mb-10 max-w-2xl leading-relaxed">
-            Whether you have a specific AI project in mind, need a scalable backend architecture, or just want to discuss the future of tech, my inbox is always monitored.
+            Whether you have a project in mind or simply want to compare notes, send me a message. I&apos;ll get back to you as soon as I can.
           </p>
           <div className="w-full font-mono">
             <div className="glass-chip flex w-full min-w-0 items-center space-x-4 border border-outline-variant/5 p-4">
@@ -56,7 +56,7 @@ export default function Contacts() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
             </span>
-            <span className="text-[10px] text-secondary font-mono tracking-[0.2em] sm:text-xs sm:tracking-widest">AVAILABILITY: OPEN FOR WORK</span>
+            <span className="text-[10px] text-secondary font-mono tracking-[0.2em] sm:text-xs sm:tracking-widest">Available for work</span>
           </div>
           <div className="h-px flex-1 self-stretch bg-outline-variant/10 sm:self-auto"></div>
         </div>
